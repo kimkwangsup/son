@@ -41,7 +41,7 @@
 			resultType, parameterType은 필수 사항은 아니고
 			필요할 대만 사용하면 된다.
 	 -->
-	<select id="idList" resultType="string" parameterType="">
+	<select id="idList" resultType="string">
 		SELECT
 			id
 		FROM

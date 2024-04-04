@@ -36,6 +36,9 @@ $(document).ready(function(){
 	$('#gboard').click(function(){
 		$(location).attr('href', '/gboard/gboard.son');
 	})
+	$('#idList').click(function(){
+		$(location).attr('href', '/member/memberList.son');
+	});
 });
 </script>
 </head>
@@ -52,6 +55,7 @@ $(document).ready(function(){
 		<div class="inblock w3-left w3-btn w3-small w3-pale-red" id="gboard">방명록</div>
 <c:if test="${not empty SID}">
 		<div class="inblock w3-btn w3-small w3-right w3-pale-red" id="logout">로그아웃</div>
+		<div class="inblock w3-btn w3-small w3-right w3-blue-gray" id="idList">회원목록</div>
 </c:if>
 <c:if test="${empty SID}">
 		<div class="inblock w3-right w3-btn w3-small w3-pale-green" id="join">회원가입</div>

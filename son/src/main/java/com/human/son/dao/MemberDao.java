@@ -1,9 +1,11 @@
 package com.human.son.dao;
 
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.*;
 
-import com.human.son.vo.MemberVO;
+import org.mybatis.spring.*;
+import org.springframework.beans.factory.annotation.*;
+
+import com.human.son.vo.*;
 
 public class MemberDao {
 	@Autowired
@@ -14,16 +16,23 @@ public class MemberDao {
 	}
 	
 	/**
-	 * ¾ÆÀÌµğ Ã¼Å© µ¥ÀÌÅÍº£ÀÌ½º ÀÛ¾÷ Àü´ã Ã³¸®ÇÔ¼ö
+	 * ì•„ì´ë”” ì²´í¬ ë°ì´í„°ë² ì´ìŠ¤ ì‘ì—… ì „ë‹´ ì²˜ë¦¬í•¨ìˆ˜
 	 */
 	public int idCheck(String id) {
 		return session.selectOne("mSQL.idCheck", id);
 	}
 	
 	/**
-	 * È¸¿ø Á¤º¸ ÀÔ·Â Àü´ã Ã³¸®ÇÔ¼ö
+	 * íšŒì› ì •ë³´ ì…ë ¥ ì „ë‹´ ì²˜ë¦¬í•¨ìˆ˜
 	 */
 	public int addMemb(MemberVO mVO) {
 		return session.insert("mSQL.addMember", mVO);
+	}
+	
+	/**
+	 * íšŒì› ì•„ì´ë”” ì¡°íšŒ ì „ë‹´ ì²˜ë¦¬í•¨ìˆ˜
+	 */
+	public List getIdList() {
+		return session.selectList("mSQL.idList");
 	}
 }

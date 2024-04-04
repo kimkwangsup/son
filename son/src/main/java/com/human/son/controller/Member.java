@@ -1,72 +1,76 @@
 package com.human.son.controller;
 
 import java.util.*;
-
 import javax.servlet.http.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.*;
 import org.springframework.web.servlet.view.*;
 
-import com.human.son.dao.MemberDao;
-import com.human.son.vo.MemberVO;
+import com.human.son.dao.*;
+import com.human.son.vo.*;
+import com.human.son.util.*;
 
 @Controller
 @RequestMapping("/member")
 public class Member {
 	@Autowired
 	MemberDao mDao;
+	
+	@Autowired
+	ColorList color;
+	
 	/**
-	 * 濡쒓렇�씤 �솕硫� 蹂닿린 �슂泥� �쟾�떞 泥섎━�븿�닔
+	 * 로그인 화면 보기 요청 전담 처리함수
 	 */
 	@RequestMapping("/login.son")
 	public ModelAndView login(HttpSession session, ModelAndView mv, RedirectView rv) {
-		String view = "/member/login";
+		String view = "member/login";
 		if(session.getAttribute("SID") != null) {
 			view = "/main.son";
 			rv.setUrl(view);
-			mv.setView(rv); // 由щ떎�씠�젆�듃
+			mv.setView(rv); // 리다이렉트 
 		} else {
-			mv.setViewName(view); // �룷�썙�뱶
+			mv.setViewName(view); // 포워드
 		}
 		return mv;
 	}
+	
 	@RequestMapping("/loginProc.son")
-	public ModelAndView loginProc(HttpSession session, ModelAndView mv, RedirectView rv, MemberVO mVO/*, String id, String pw*/) {
+	public ModelAndView loginProc(HttpSession session, ModelAndView mv, RedirectView rv,
+			/* String id, String pw, */MemberVO mVO) {
 		String view = "/main.son";
+		
 		if(session.getAttribute("SID") != null) {
-			// �씠誘� 濡쒓렇�씤 �븳 寃쎌슦
+			// 이미 로그인 한 경우
 			rv.setUrl(view);
 			mv.setView(rv);
 			return mv;
 		}
-		// 濡쒓렇�씤 �븞�맂寃쎌슦
-		// �뜲�씠�꽣踰좎씠�뒪議고쉶
+		
+//		System.out.println(mVO.getId() + " - " + mVO.getPw());
+		// 로그인 안된경우
+		// 데이터베이스 조회
 		int cnt = mDao.getLogin(mVO);
+		
 		if(cnt != 1) {
 			view = "/member/login.son";
-		}else {
+		} else {
 			session.setAttribute("SID", mVO.getId());
 		}
+		
 		rv.setUrl(view);
 		mv.setView(rv);
 		return mv;
 	}
-//	@RequestMapping("/logoutProc.son")
-//	public String logoutProc(HttpSession session) {
-//		String view = "/main";
-//		if(session.getAttribute("SID") != null) {
-//			session.removeAttribute("SID");
-//		}
-//		return view;
-//	}
+	
 	/**
-	 * 濡쒓렇�븘�썐 �슂泥� �쟾�떞 泥섎━ �븿�닔
+	 * 로그아웃 요청 전담 처리 함수
 	 */
 	@RequestMapping("/logoutProc.son")
-	public ModelAndView logoutProc(ModelAndView mv, HttpSession session, RedirectView rv) {
+	public ModelAndView logoutProc(HttpSession session, ModelAndView mv, RedirectView rv) {
 		String view = "/main.son";
 		if(session.getAttribute("SID") != null) {
 			session.removeAttribute("SID");
@@ -75,79 +79,101 @@ public class Member {
 		mv.setView(rv);
 		return mv;
 	}
+	
 	/**
-	 * �쉶�썝媛��엯 �뤌蹂닿린 �슂泥� �쟾�떞 泥섎━�븿�닔
+	 * 회원가입 폼보기 요청 전담 처리 함수
 	 */
 	@RequestMapping("/join.son")
-	public ModelAndView join(ModelAndView mv, HttpSession session, RedirectView rv) {
-		String view = "/main.son";
-		// �꽭�뀡寃��궗
+	public ModelAndView join(HttpSession session, ModelAndView mv, RedirectView rv) {
+		// 세션검사
 		if(session.getAttribute("SID") != null) {
-			// �씠誘� 濡쒓렇�씤 �릺�뼱�엳�뒗 寃쎌슦
-			rv.setUrl(view);
-			mv.setView(rv); // 由щ떎�씠�젆�듃
-		}else {
-			// 濡쒓렇�씤 �븞�맂 寃쎌슦
-			mv.setViewName("member/join"); // �룷�썙�뱶
+			// 이미 로그인 되어있는 경우
+			rv.setUrl("/main.son");
+			mv.setView(rv); // 리다이렉트
+		} else {
+			// 로그인 안되어있는 경우
+			mv.setViewName("member/join"); // 포워드
 		}
 		return mv;
 	}
+	
 	/**
-	 * �븘�씠�뵒泥댄겕 泥섎━�슂泥� �븿�닔
+	 * 아이디 체크 요청 전담 처리함수
 	 */
 	@RequestMapping("/idCheck.son")
 	@ResponseBody
 	public HashMap idCheck(String id) {
 		HashMap map = new HashMap();
-		// �뜲�씠�꽣踰좎씠�뒪 議고쉶
+		// 데이터베이스 조회
 		int cnt = mDao.idCheck(id);
 		String result = "NO";
 		if(cnt == 0) {
-			result = "YES";
+			result ="YES";
 		}
 		map.put("result", result);
+		/*
+			==>
+			{
+				"result": "YES"
+			}
+		 */
 		return map;
 	}
+	
 	/**
-	 * �쉶�썝媛��엯 泥섎━ �슂泥� �쟾�떞 泥섎━�븿�닔
+	 * 회원가입 처리 요청 전담 처리함수
 	 */
 	@RequestMapping("/joinProc.son")
-	public ModelAndView joinProc(HttpSession session, ModelAndView mv, RedirectView rv, MemberVO mVO) {
-		String view = "/main.son";
+	public ModelAndView joinProc(HttpSession session, ModelAndView mv, 
+											RedirectView rv, MemberVO mVO) {
 		if(session.getAttribute("SID") != null) {
-			rv.setUrl(view);
+			rv.setUrl("/main.son");
 			mv.setView(rv);
-		}else {
-			// �뜲�씠�꽣踰좎씠�뒪 �옉�뾽
+		} else {
+			// 데이터베이스 작업
 			int cnt = mDao.addMemb(mVO);
-			// 酉� �꽭�똿�븯怨�
+			
+			// 뷰 셋팅하고
 			if(cnt == 1) {
-				// �쉶�썝媛��엯�뿉 �꽦怨듯븳 寃쎌슦
-				// �꽭�뀡�뿉 �븘�씠�뵒 湲곗뼲�떆�궎怨� 
+				// 회원가입에 성공한 경우
+				// 세션에 아이디 기억시키고
 				session.setAttribute("SID", mVO.getId());
-				rv.setUrl(view);
-			}else {
-				
-				// �쉶�썝媛��엯�뿉 �떎�뙣�븳 寃쎌슦
+				// 뷰 셋팅하고
+				rv.setUrl("/main.son");
+			} else {
+				// 회원가입에 실패한 경우
 				rv.setUrl("/member/join.son");
 			}
 			mv.setView(rv);
 		}
+		
 		return mv;
 	}
-	public ModelAndView memberList(HttpSession session, ModelAndView mv, RedirectView rv, MemberVO mVO) {
+	
+	/**
+	 * 회원리스트 폼보기 요청 전담 처리함수
+	 */
+	@RequestMapping("/memberList.son")
+	public ModelAndView memberList(HttpSession session, ModelAndView mv, RedirectView rv) {
 		// 할일
 		// 뷰 정하고
 		String view = "member/memberList";
+		
 		// 로그인 검사
 		if(session.getAttribute("SID") == null) {
 			// 로그인 안한경우
 			rv.setUrl("/member/login.son");
-			mv.setView(rv);
-		}else {
+			mv.setView(rv); // redirect(이동할 요청 url)
+		} else {
 			// 데이터베이스 조회
-			
+			List list = mDao.getIdList();
+			// 데이터 기억시키고
+			mv.addObject("LIST", list);
+			mv.addObject("COLOR", color.getColorlist());
+			// 뷰 기억시키고
+			mv.setViewName(view); // forward(jsp문서)
 		}
+		
 		return mv;
 	}
 }
