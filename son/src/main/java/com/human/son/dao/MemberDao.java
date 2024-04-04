@@ -3,27 +3,27 @@ package com.human.son.dao;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.human.son.vo.*;
+import com.human.son.vo.MemberVO;
 
 public class MemberDao {
 	@Autowired
 	SqlSessionTemplate session;
+	
 	public int getLogin(MemberVO mVO) {
 		return session.selectOne("mSQL.login", mVO);
 	}
 	
 	/**
-	 * ì•„ì´ë”” ì²´í¬ ë°ì´í„°ë² ì´ìŠ¤ ì „ë‹´ ì²˜ë¦¬ í•¨ìˆ˜
+	 * ¾ÆÀÌµğ Ã¼Å© µ¥ÀÌÅÍº£ÀÌ½º ÀÛ¾÷ Àü´ã Ã³¸®ÇÔ¼ö
 	 */
 	public int idCheck(String id) {
 		return session.selectOne("mSQL.idCheck", id);
 	}
 	
 	/**
-	 *  íšŒì› ì •ë³´ ì…ë ¥ ì „ë‹´ ì²˜ë¦¬í•¨ìˆ˜
+	 * È¸¿ø Á¤º¸ ÀÔ·Â Àü´ã Ã³¸®ÇÔ¼ö
 	 */
 	public int addMemb(MemberVO mVO) {
 		return session.insert("mSQL.addMember", mVO);
 	}
 }
-

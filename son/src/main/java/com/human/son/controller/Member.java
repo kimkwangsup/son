@@ -19,7 +19,7 @@ public class Member {
 	@Autowired
 	MemberDao mDao;
 	/**
-	 * 로그인 화면 보기 요청 전담 처리함수
+	 * 濡쒓렇�씤 �솕硫� 蹂닿린 �슂泥� �쟾�떞 泥섎━�븿�닔
 	 */
 	@RequestMapping("/login.son")
 	public ModelAndView login(HttpSession session, ModelAndView mv, RedirectView rv) {
@@ -27,9 +27,9 @@ public class Member {
 		if(session.getAttribute("SID") != null) {
 			view = "/main.son";
 			rv.setUrl(view);
-			mv.setView(rv); // 리다이렉트
+			mv.setView(rv); // 由щ떎�씠�젆�듃
 		} else {
-			mv.setViewName(view); // 포워드
+			mv.setViewName(view); // �룷�썙�뱶
 		}
 		return mv;
 	}
@@ -37,13 +37,13 @@ public class Member {
 	public ModelAndView loginProc(HttpSession session, ModelAndView mv, RedirectView rv, MemberVO mVO/*, String id, String pw*/) {
 		String view = "/main.son";
 		if(session.getAttribute("SID") != null) {
-			// 이미 로그인 한 경우
+			// �씠誘� 濡쒓렇�씤 �븳 寃쎌슦
 			rv.setUrl(view);
 			mv.setView(rv);
 			return mv;
 		}
-		// 로그인 안된경우
-		// 데이터베이스조회
+		// 濡쒓렇�씤 �븞�맂寃쎌슦
+		// �뜲�씠�꽣踰좎씠�뒪議고쉶
 		int cnt = mDao.getLogin(mVO);
 		if(cnt != 1) {
 			view = "/member/login.son";
@@ -63,7 +63,7 @@ public class Member {
 //		return view;
 //	}
 	/**
-	 * 로그아웃 요청 전담 처리 함수
+	 * 濡쒓렇�븘�썐 �슂泥� �쟾�떞 泥섎━ �븿�닔
 	 */
 	@RequestMapping("/logoutProc.son")
 	public ModelAndView logoutProc(ModelAndView mv, HttpSession session, RedirectView rv) {
@@ -76,30 +76,30 @@ public class Member {
 		return mv;
 	}
 	/**
-	 * 회원가입 폼보기 요청 전담 처리함수
+	 * �쉶�썝媛��엯 �뤌蹂닿린 �슂泥� �쟾�떞 泥섎━�븿�닔
 	 */
 	@RequestMapping("/join.son")
 	public ModelAndView join(ModelAndView mv, HttpSession session, RedirectView rv) {
 		String view = "/main.son";
-		// 세션검사
+		// �꽭�뀡寃��궗
 		if(session.getAttribute("SID") != null) {
-			// 이미 로그인 되어있는 경우
+			// �씠誘� 濡쒓렇�씤 �릺�뼱�엳�뒗 寃쎌슦
 			rv.setUrl(view);
-			mv.setView(rv); // 리다이렉트
+			mv.setView(rv); // 由щ떎�씠�젆�듃
 		}else {
-			// 로그인 안된 경우
-			mv.setViewName("member/join"); // 포워드
+			// 濡쒓렇�씤 �븞�맂 寃쎌슦
+			mv.setViewName("member/join"); // �룷�썙�뱶
 		}
 		return mv;
 	}
 	/**
-	 * 아이디체크 처리요청 함수
+	 * �븘�씠�뵒泥댄겕 泥섎━�슂泥� �븿�닔
 	 */
 	@RequestMapping("/idCheck.son")
 	@ResponseBody
 	public HashMap idCheck(String id) {
 		HashMap map = new HashMap();
-		// 데이터베이스 조회
+		// �뜲�씠�꽣踰좎씠�뒪 議고쉶
 		int cnt = mDao.idCheck(id);
 		String result = "NO";
 		if(cnt == 0) {
@@ -109,7 +109,7 @@ public class Member {
 		return map;
 	}
 	/**
-	 * 회원가입 처리 요청 전담 처리함수
+	 * �쉶�썝媛��엯 泥섎━ �슂泥� �쟾�떞 泥섎━�븿�닔
 	 */
 	@RequestMapping("/joinProc.son")
 	public ModelAndView joinProc(HttpSession session, ModelAndView mv, RedirectView rv, MemberVO mVO) {
@@ -118,20 +118,35 @@ public class Member {
 			rv.setUrl(view);
 			mv.setView(rv);
 		}else {
-			// 데이터베이스 작업
+			// �뜲�씠�꽣踰좎씠�뒪 �옉�뾽
 			int cnt = mDao.addMemb(mVO);
-			// 뷰 세팅하고
+			// 酉� �꽭�똿�븯怨�
 			if(cnt == 1) {
-				// 회원가입에 성공한 경우
-				// 세션에 아이디 기억시키고 
+				// �쉶�썝媛��엯�뿉 �꽦怨듯븳 寃쎌슦
+				// �꽭�뀡�뿉 �븘�씠�뵒 湲곗뼲�떆�궎怨� 
 				session.setAttribute("SID", mVO.getId());
 				rv.setUrl(view);
 			}else {
 				
-				// 회원가입에 실패한 경우
+				// �쉶�썝媛��엯�뿉 �떎�뙣�븳 寃쎌슦
 				rv.setUrl("/member/join.son");
 			}
 			mv.setView(rv);
+		}
+		return mv;
+	}
+	public ModelAndView memberList(HttpSession session, ModelAndView mv, RedirectView rv, MemberVO mVO) {
+		// 할일
+		// 뷰 정하고
+		String view = "member/memberList";
+		// 로그인 검사
+		if(session.getAttribute("SID") == null) {
+			// 로그인 안한경우
+			rv.setUrl("/member/login.son");
+			mv.setView(rv);
+		}else {
+			// 데이터베이스 조회
+			
 		}
 		return mv;
 	}
