@@ -1,78 +1,83 @@
-# son project ¿äÃ»¼³°è
+# son project ìš”ì²­ì„¤ê³„
 
-# main page ¿äÃ»¼³°è
-¿äÃ»³»¿ë 	:	/main.son , /
-ÆÄ¶ó¹ÌÅÍ	:	¾øÀ½
-ÄÁÆ®·Ñ·¯	:	com.human.son.controller.MainController	- /main.son
+# main page ìš”ì²­ì„¤ê³„
+ìš”ì²­ë‚´ìš© 	:	/main.son , /
+íŒŒë¼ë¯¸í„°	:	ì—†ìŒ
+ì»¨íŠ¸ë¡¤ëŸ¬	:	com.human.son.controller.MainController	- /main.son
 				com.human.home.SonMain					- /
-Ã³¸®ÇÔ¼ö	:	goMain(), getMain()
-ÀÀ´ä¹®¼­	:	/WEB-INF/views/main.jsp
+ì²˜ë¦¬í•¨ìˆ˜	:	goMain(), getMain()
+ì‘ë‹µë¬¸ì„œ	:	/WEB-INF/views/main.jsp
 -----------------------------------------------------------------------------
-# È¸¿ø°ü·Ã ¿äÃ» ¼³°è
+# íšŒì›ê´€ë ¨ ìš”ì²­ ì„¤ê³„
 
-# ·Î±×ÀÓ Æûº¸±â ¿äÃ»
-¿äÃ»³»¿ë 	:	/member/login.son
-ÆÄ¶ó¹ÌÅÍ	:	none
-ÄÁÆ®·Ñ·¯	:	com.human.son.controller.Member
-Ã³¸®ÇÔ¼ö	:	login()
-ÀÀ´ä¹®¼­	:	/WEB-INF/views/member/login.jsp
+# ë¡œê·¸ì„ í¼ë³´ê¸° ìš”ì²­
+ìš”ì²­ë‚´ìš© 	:	/member/login.son
+íŒŒë¼ë¯¸í„°	:	none
+ì»¨íŠ¸ë¡¤ëŸ¬	:	com.human.son.controller.Member
+ì²˜ë¦¬í•¨ìˆ˜	:	login()
+ì‘ë‹µë¬¸ì„œ	:	/WEB-INF/views/member/login.jsp
 
-# ·Î±×ÀÎ Ã³¸® ¿äÃ»
-¿äÃ»³»¿ë 	:	/member/loginProc.son
-ÆÄ¶ó¹ÌÅÍ	:	id, pw
-ÄÁÆ®·Ñ·¯	:	com.human.son.controller.Member
-Ã³¸®ÇÔ¼ö	:	loginProc()
-ÀÀ´ä¹®¼­	:	
+# ë¡œê·¸ì¸ ì²˜ë¦¬ ìš”ì²­
+ìš”ì²­ë‚´ìš© 	:	/member/loginProc.son
+íŒŒë¼ë¯¸í„°	:	id, pw
+ì»¨íŠ¸ë¡¤ëŸ¬	:	com.human.son.controller.Member
+ì²˜ë¦¬í•¨ìˆ˜	:	loginProc()
+ì‘ë‹µë¬¸ì„œ	:	
 				redirect ]
-					¼º°ø :	/main.son
-					½ÇÆĞ :	/member/login.son
+					ì„±ê³µ :	/main.son
+					ì‹¤íŒ¨ :	/member/login.son
 					
-# ·Î±×¾Æ¿ô Ã³¸® ¿äÃ»
-¿äÃ»³»¿ë 	:	/member/logout.son
-ÆÄ¶ó¹ÌÅÍ	:	none
-ÄÁÆ®·Ñ·¯	:	com.human.son.controller.Member
-Ã³¸®ÇÔ¼ö	:	logout()
-ÀÀ´ä¹®¼­	:	
+# ë¡œê·¸ì•„ì›ƒ ì²˜ë¦¬ ìš”ì²­
+ìš”ì²­ë‚´ìš© 	:	/member/logout.son
+íŒŒë¼ë¯¸í„°	:	none
+ì»¨íŠ¸ë¡¤ëŸ¬	:	com.human.son.controller.Member
+ì²˜ë¦¬í•¨ìˆ˜	:	logout()
+ì‘ë‹µë¬¸ì„œ	:	
 				redirect ]
-					¼º°ø/½ÇÆĞ :	/main.son
+					ì„±ê³µ/ì‹¤íŒ¨ :	/main.son
 
-# È¸¿ø°¡ÀÔ Æûº¸±â ¿äÃ»
-¿äÃ»³»¿ë 	:	/member/join.son
-ÆÄ¶ó¹ÌÅÍ	:	none
-ÄÁÆ®·Ñ·¯	:	com.human.son.controller.Member
-Ã³¸®ÇÔ¼ö	:	join()
-ÀÀ´ä¹®¼­	:	/WEB-INF/views/member/join.jsp
+# íšŒì›ê°€ì… í¼ë³´ê¸° ìš”ì²­
+ìš”ì²­ë‚´ìš© 	:	/member/join.son
+íŒŒë¼ë¯¸í„°	:	none
+ì»¨íŠ¸ë¡¤ëŸ¬	:	com.human.son.controller.Member
+ì²˜ë¦¬í•¨ìˆ˜	:	join()
+ì‘ë‹µë¬¸ì„œ	:	/WEB-INF/views/member/join.jsp
 
-# È¸¿ø°¡ÀÔ Ã³¸® ¿äÃ»
-¿äÃ»³»¿ë 	:	/member/joinProc.son
-ÆÄ¶ó¹ÌÅÍ	:	name, id, pw, mail,tel, gen, ano
-ÄÁÆ®·Ñ·¯	:	com.human.son.controller.Member
-Ã³¸®ÇÔ¼ö	:	joinProc()
-ÀÀ´ä¹®¼­	:	
+# íšŒì›ê°€ì… ì²˜ë¦¬ ìš”ì²­
+ìš”ì²­ë‚´ìš© 	:	/member/joinProc.son
+íŒŒë¼ë¯¸í„°	:	name, id, pw, mail,tel, gen, ano
+ì»¨íŠ¸ë¡¤ëŸ¬	:	com.human.son.controller.Member
+ì²˜ë¦¬í•¨ìˆ˜	:	joinProc()
+ì‘ë‹µë¬¸ì„œ	:	
 				redirect ]
-					¼º°ø :	/main.son
-					½ÇÆĞ :	/member/join.son
+					ì„±ê³µ :	/main.son
+					ì‹¤íŒ¨ :	/member/join.son
 					
-# ¾ÆÀÌµğ Ã¼Å© Ã³¸® ¿äÃ»
-¿äÃ»³»¿ë 	:	/member/idCheck.son
-ÆÄ¶ó¹ÌÅÍ	:	id
-ÄÁÆ®·Ñ·¯	:	com.human.son.controller.Member
-Ã³¸®ÇÔ¼ö	:	idCheck()
-ÀÀ´ä¹®¼­	: 	JSON : {"result": "YES | NO"}
+# ì•„ì´ë”” ì²´í¬ ì²˜ë¦¬ ìš”ì²­
+ìš”ì²­ë‚´ìš© 	:	/member/idCheck.son
+íŒŒë¼ë¯¸í„°	:	id
+ì»¨íŠ¸ë¡¤ëŸ¬	:	com.human.son.controller.Member
+ì²˜ë¦¬í•¨ìˆ˜	:	idCheck()
+ì‘ë‹µë¬¸ì„œ	: 	JSON : {"result": "YES | NO"}
 
-# È¸¿ø¸®½ºÆ® º¸±â ¿äÃ»
-¿äÃ»³»¿ë 	:	/member/memberList.son
-ÆÄ¶ó¹ÌÅÍ	:	none
-ÄÁÆ®·Ñ·¯	:	com.human.son.controller.Member
-Ã³¸®ÇÔ¼ö	:	memberList()
-ÀÀ´ä¹®¼­	:	/WEB-INF/views/member/memberList.jsp
+# íšŒì›ë¦¬ìŠ¤íŠ¸ë³´ê¸° ìš”ì²­
+ìš”ì²­ë‚´ìš© 	:	/member/memberList.son
+íŒŒë¼ë¯¸í„°	:	none
+ì»¨íŠ¸ë¡¤ëŸ¬	:	com.human.son.controller.Member
+ì²˜ë¦¬í•¨ìˆ˜	:	memberList()
+ì‘ë‹µë¬¸ì„œ	:	/WEB-INF/views/member/memberList.jsp
 
-
+# íšŒì› ì •ë³´ ë³´ê¸° ìš”ì²­
+ìš”ì²­ë‚´ìš© 	:	/member/memberInfo.son
+íŒŒë¼ë¯¸í„°	:	id
+ì»¨íŠ¸ë¡¤ëŸ¬	:	com.human.son/controller.Member
+ì²˜ë¦¬í•¨ìˆ˜	:	memberInfo()
+ì‘ë‹µë¬¸ì„œ	:	JSON
 
 
 -----------------------------------------------------------------------------
-¿äÃ»³»¿ë 	:
-ÆÄ¶ó¹ÌÅÍ	:
-ÄÁÆ®·Ñ·¯	:
-Ã³¸®ÇÔ¼ö	:
-ÀÀ´ä¹®¼­	:
+ìš”ì²­ë‚´ìš© 	:
+íŒŒë¼ë¯¸í„°	:
+ì»¨íŠ¸ë¡¤ëŸ¬	:
+ì²˜ë¦¬í•¨ìˆ˜	:
+ì‘ë‹µë¬¸ì„œ	:

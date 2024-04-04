@@ -173,7 +173,26 @@ public class Member {
 			// 뷰 기억시키고
 			mv.setViewName(view); // forward(jsp문서)
 		}
-		
 		return mv;
 	}
+	
+	@RequestMapping("/memberInfo.son")
+	@ResponseBody
+	public MemberVO memberInfo(String id) {
+		MemberVO mVO = mDao.getMemberInfo(id);
+		return mVO;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

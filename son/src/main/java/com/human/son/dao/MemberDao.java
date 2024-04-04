@@ -35,4 +35,10 @@ public class MemberDao {
 	public List getIdList() {
 		return session.selectList("mSQL.idList");
 	}
+	/**
+	 * 회원 정보 조회 전담 처리함수
+	 */
+	public MemberVO getMemberInfo(String id) {
+		return session.selectOne("mSQL.memberInfo", id);
+	}
 }

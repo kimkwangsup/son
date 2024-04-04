@@ -39,13 +39,25 @@
 		
 		참고 ]
 			resultType, parameterType은 필수 사항은 아니고
-			필요할 대만 사용하면 된다.
+			필요할 때만 사용하면 된다.
 	 -->
 	<select id="idList" resultType="string">
 		SELECT
 			id
 		FROM
 			member
+	</select>
+	
+	<!-- 회원의 아이디로 해당 회원의 정보를 조회하는 질의명령 -->
+	<select id="memberInfo" resultType="mVO" parameterType="string">
+		SELECT
+			name, id, mail, tel, m.gen gen, joindate jdate, filename savename
+		FROM
+			member m, avatar a
+		WHERE
+			avatar = ano
+			AND id = #{id}
+			
 	</select>
 	
 	
