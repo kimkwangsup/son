@@ -37,7 +37,7 @@ $(document).ready(function(){
 		$(location).attr('href', '/gboard/gboard.son');
 	})
 	$('#fboard').click(function(){
-		$(location).attr('href', '/fboard/fboard.son');
+		$(location).attr('href', '/fboard/fileboard.son');
 	})
 	$('#idList').click(function(){
 		$(location).attr('href', '/member/memberList.son');

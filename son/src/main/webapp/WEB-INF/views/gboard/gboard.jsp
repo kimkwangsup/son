@@ -34,7 +34,7 @@
 		});
 		
 		$('#logout').click(function(){
-			$(location).attr('href', '/member/logout.son');
+			$(location).attr('href', '/member/logoutProc.son');
 		});
 		$('#join').click(function(){
 			$(location).attr('href', '/member/join.son');

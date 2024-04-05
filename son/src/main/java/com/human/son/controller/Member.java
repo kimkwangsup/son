@@ -49,18 +49,12 @@ public class Member {
 			mv.setView(rv);
 			return mv;
 		}
-		
-//		System.out.println(mVO.getId() + " - " + mVO.getPw());
-		// 로그인 안된경우
-		// 데이터베이스 조회
 		int cnt = mDao.getLogin(mVO);
-		
 		if(cnt != 1) {
 			view = "/member/login.son";
 		} else {
 			session.setAttribute("SID", mVO.getId());
 		}
-		
 		rv.setUrl(view);
 		mv.setView(rv);
 		return mv;
@@ -72,6 +66,20 @@ public class Member {
 	@RequestMapping("/logoutProc.son")
 	public ModelAndView logoutProc(HttpSession session, ModelAndView mv, RedirectView rv) {
 		String view = "/main.son";
+		if(session.getAttribute("SID") != null) {
+			session.removeAttribute("SID");
+		}
+		rv.setUrl(view);
+		mv.setView(rv);
+		return mv;
+	}
+	
+	/**
+	 * 파일 게시판 로그아웃 요청 전담 처리 함수
+	 */
+	@RequestMapping("/flogoutProc.son")
+	public ModelAndView flogoutProc(HttpSession session, ModelAndView mv, RedirectView rv) {
+		String view = "/fboard/fileboard.son";
 		if(session.getAttribute("SID") != null) {
 			session.removeAttribute("SID");
 		}
