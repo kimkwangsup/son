@@ -51,9 +51,9 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<form method="POST" action="/fboard/fileboardDetail.son" id="frm" name="frm">
-	<input type="hidden" name="bno" id="bno">
-</form>
+	<form method="POST" action="/fboard/fileboardDetail.son" id="frm" name="frm">
+		<input type="hidden" name="bno" id="bno">
+	</form>
 <div class="w3-content mxw650 w3-center">
 	<h1 class="w3-teal w3-padding w3-card-4 w3-round-large">파일 게시판</h1>
 	<div class="w3-col mgt10">
@@ -73,25 +73,31 @@ $(document).ready(function(){
 			<div class="w3-blue-gray inblock" style="width: 80px">작성자</div>
 			<div class="w3-blue-gray inblock" style="width: 80px">파일</div>
 		</div>
-		
-		<div class="w3-col w3-margin-top fblist" id="1234">
-			<div class="w3-border inblock w3-left-align fbno" style="width: 80px">1</div>
-			<div class="w3-border inblock w3-left-align file" style="width: 220px">2</div>
-			<div class="w3-border inblock w3-left-align wdate" style="width: 165px">3</div>
-			<div class="w3-border inblock w3-left-align writer" style="width: 80px">4</div>
-			<div class="w3-border inblock w3-left-align title" style="width: 80px">5</div>
+<c:if test="${not empty LIST }">
+	<c:forEach var="DATA" items="${LIST}">
+		<div class="w3-col w3-margin-top fblist" id="${DATA.bno}">
+			<div class="w3-border inblock w3-left-align fbno" style="width: 80px">${DATA.bno}</div>
+			<div class="w3-border inblock w3-left-align file" style="width: 220px">${DATA.title}</div>
+			<div class="w3-border inblock w3-left-align wdate" style="width: 165px">${DATA.sdate }</div>
+			<div class="w3-border inblock w3-left-align writer" style="width: 80px">${DATA.id }</div>
+			<div class="w3-border inblock w3-left-align file" style="width: 80px">${DATA.cnt }</div>
 		</div>
-		
-	</div>
+	</c:forEach>
 	<div class="w3-col w3-center w3-margin-top">
 		<div class="w3-bar w3-border w3-round">
-			<a href="#" class="w3-bar-item w3-button w3-light-gray w3-hover-blue-gray">&laquo;</a>
-			<a href="#" class="w3-bar-item w3-button">1</a>
-			<a href="#" class="w3-bar-item w3-button">2</a>
-			<a href="#" class="w3-bar-item w3-button">3</a>
-			<a href="#" class="w3-bar-item w3-button">4</a>
-			<a href="#" class="w3-bar-item w3-button w3-light-gray w3-hover-blue-gray">&raquo;</a>
+			<span class="w3-bar-item w3-button w3-light-gray w3-hover-blue-gray" id="${PAGE.startPage - 1}">&laquo;</span>
+<c:forEach var="pno" begin="${PAGE.startPage}" end="${PAGE.endPage}">
+			<span class="w3-bar-item w3-button">${pno}</span>
+</c:forEach>
+			<span class="w3-bar-item w3-button w3-light-gray w3-hover-blue-gray" id="${PAGE.endPage + 1}">&raquo;</span>
 		</div>
+	</div>
+</c:if>
+<c:if test="${empty LIST }">
+		<div class="w3-col w3-margin-top">
+			<h2 class="w3-center w3-text-gray">아직 작성된 글이 없습니다.</h2>
+		</div>
+</c:if>
 	</div>
 </div>
 </body>

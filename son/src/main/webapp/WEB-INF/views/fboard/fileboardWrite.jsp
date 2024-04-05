@@ -26,6 +26,7 @@
 		$('#list').click(function(){
 			$(location).attr('href', '/fboard/fileboard.son');
 		});
+		
 		$(document.frm.file).change(function(){
 			
 			var sfile = $(this).val();
@@ -36,15 +37,41 @@
 			}
 		});
 		
+		$('#write').click(function(){
+			var sid = $('#id').val();
+			var title = $('#title').val();
+			var body = $('#body').val();
+			if(!sid){
+				$('#id').focus();
+				return;
+			}
+			if(!body){
+				$('#body').focus();
+				return;
+			}
+			if(!title){
+				$('#title').focus();
+				return;
+			}
+			var file = $(document.frm.file).val();
+			for(var i = 0 ; i < file.length ; i++){
+				if(!file){
+					$(document.frm.file).eq(i).prop('disabled', 'true');
+				}
+			}
+			$('#frm').submit();
+		});
+		
+		
 	});
 </script>
 </head>
-<body>
+<body class="w3-sand">
 	<div class="w3-content mxw700">
 		<h1 class="w3-padding w3-center w3-pale-green w3-card-4 w3-round-large">게시글 작성</h1>
 		
 		<form method="POST" action="/fboard/writeProc.son" name="frm" id="frm"
-			 		class="w3-col w3-padding w3-card-4 w3-light-grey">
+			 		class="w3-col w3-padding w3-card-4 w3-light-grey" encType="multipart/form-data">
 			<div class="w3-row w3-section w3-padding">
 				<label class="w3-col w3-right-align lbl" style="width: 150px;">
 					<span class="w3-xxlarge fa fa-user"></span>작성자 : 
@@ -87,7 +114,7 @@
 		<div class="w3-col">
 			<div class="w3-third w3-btn w3-section w3-pale-green w3-ripple" id="home">Home</div>
 			<div class="w3-third w3-btn w3-section w3-pale-red w3-ripple" id="list">글목록</div>
-			<div class="w3-third w3-btn w3-section w3-pale-blue w3-ripple" id="submit">글등록</div>
+			<div class="w3-third w3-btn w3-section w3-pale-blue w3-ripple" id="write">글등록</div>
 		</div>
 	</div>
 </body>
