@@ -4,22 +4,22 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="fSQL">
 	<select id="selList" resultType="bVO" parameterType="page">
-		<!-- resultType 은 조회한 한 행을 기억할 타입으로 지정한다. -->
+		<!-- resultType은 조회한 한행을 기억할 타입으로 지정한다. -->
 		SELECT
 		    rno, bno, title, body, mno, id, wdate
 		FROM
 		    (
 		        SELECT
-		            ROWNUM rno , bno, title, body, mno, id, wdate
+		            ROWNUM rno, bno, title, body, mno, id, wdate
 		        FROM
 		            (
 		                SELECT
 		                    fbno bno, title, body, mno, id, wdate
 		                FROM
 		                    fileboard f, member m
-		                WHERE  
+		                WHERE
 		                    writer = mno
-		                    AND f.isshow = 'Y'          
+		                    AND f.isshow = 'Y'
 		                ORDER BY
 		                    wdate DESC
 		            )
@@ -30,22 +30,18 @@
 	
 	<select id="selTotal" resultType="int">
 		SELECT
-			count(*)
+			COUNT(*)
 		FROM
 			fileboard
 		WHERE
 			isshow = 'Y'
 	</select>
 	
-	
-	
-	
-	
 	<insert id="addBoard" parameterType="bVO">
 		INSERT INTO
 			fileboard(fbno, title, body, writer)
 		VALUES(
-			fbrdseq.NEXTVAL, #{title}, #{body},
+			fbrdseq.NEXTVAL, #{title}, #{body}, 
 			(
 				SELECT
 					mno
@@ -56,12 +52,12 @@
 			)
 		)
 	</insert>
+	
 	<insert id="addFile" parameterType="fVO">
 		INSERT INTO
 			fileinfo(fileno, fbno, upname, savename, len)
 		VALUES(
-			fileseq.NEXTVAL, #{bno}, #{upname}, #{savename}, #{len}
+			fileSEQ.NEXTVAL, #{bno}, #{upname}, #{savename}, #{len}
 		)
 	</insert>
-	
 </mapper>

@@ -114,5 +114,11 @@ public class PageUtil {
 	public void setEndRno(int endRno) {
 		this.endRno = endRno;
 	}
+	@Override
+	public String toString() {
+		return "PageUtil [nowPage=" + nowPage + ", totalCount=" + totalCount + ", pageRow=" + pageRow + ", pageGroup="
+				+ pageGroup + ", startPage=" + startPage + ", endPage=" + endPage + ", totalPage=" + totalPage
+				+ ", startRno=" + startRno + ", endRno=" + endRno + "]";
+	}
 
 }

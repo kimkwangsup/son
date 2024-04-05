@@ -30,6 +30,7 @@ public class FileBoard {
 		int totalCnt = fDao.getTotal();
 		
 		page.setPage(nowPage, totalCnt);
+		System.out.println(page);
 		
 		// 데이터베이스에서 조회
 		List<BoardVO> list = fDao.getList(page);

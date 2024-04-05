@@ -13,7 +13,7 @@ public class FileBoardDao {
 	private SqlSessionTemplate session;
 	
 	public List<BoardVO> getList(PageUtil page){
-		return session.selectList("fSQL.selList");
+		return session.selectList("fSQL.selList", page);
 	}
 	public int getTotal() {
 		return session.selectOne("fSQL.selTotal");
