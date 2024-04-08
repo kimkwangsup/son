@@ -56,8 +56,10 @@ $(document).ready(function(){
 		var nowPage = $(this).attr('id');
 		// 입력 태그에 데이터 채우고
 		$('#nowPage').val(nowPage);
+		$('#bno').prop('disabled', true);
+		$('#frm').attr('action', '/fboard/fileboard.son');
 		// 폼태그 전송하고
-		$('#pageFrm').submit();
+		$('#frm').submit();
 	});
 	$('span').addClass('w3-round-large w3-border');
 });
@@ -70,10 +72,11 @@ $(document).ready(function(){
 		<input type="hidden" name="nowPage" id="nowPage">
 	</form>
 	
-	<!-- 페이지 요청 폼 -->
+	<!-- 페이지 요청 폼 
 	<form method="POST" action="/fboard/fileboard.son" id="pageFrm" name="pageFrm">
-		<input type="hidden" name="nowPage" id="nowPage">
+		<input type="hidden" name="nowPage" id="nowPage1">
 	</form>
+	-->
 <div class="w3-content mxw650 w3-center">
 	<h1 class="w3-col w3-teal w3-padding w3-card-4 w3-round-large w3-btn" id="home">파일 게시판</h1>
 	<div class="w3-col mgt10">
