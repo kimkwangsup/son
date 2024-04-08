@@ -12,6 +12,7 @@
 	.fblist{
 		cursor: pointer;
 	}
+	
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -40,24 +41,42 @@ $(document).ready(function(){
 	});
 	$('.fblist').click(function(){
 		var sbno = $(this).attr('id');
+		// 현재 페이지 세팅
+		$('#nowPage').val('${PAGE.nowPage}');
 		$('#bno').val(sbno);
 		$('#frm').submit();
+		
 	});
 	$('#write').click(function(){
 		$(location).attr('href', '/fboard/fileboardWrite.son');
 	});
-	
+	// 페이지 클릭 이벤트
+	$('.pageBtn').click(function(){
+		// 이동할 페이지 번호 알아내고
+		var nowPage = $(this).attr('id');
+		// 입력 태그에 데이터 채우고
+		$('#nowPage').val(nowPage);
+		// 폼태그 전송하고
+		$('#pageFrm').submit();
+	});
+	$('span').addClass('w3-round-large w3-border');
 });
 </script>
 </head>
 <body>
+	<!-- 전송용 폼태그 -->
 	<form method="POST" action="/fboard/fileboardDetail.son" id="frm" name="frm">
 		<input type="hidden" name="bno" id="bno">
+		<input type="hidden" name="nowPage" id="nowPage">
+	</form>
+	
+	<!-- 페이지 요청 폼 -->
+	<form method="POST" action="/fboard/fileboard.son" id="pageFrm" name="pageFrm">
+		<input type="hidden" name="nowPage" id="nowPage">
 	</form>
 <div class="w3-content mxw650 w3-center">
-	<h1 class="w3-teal w3-padding w3-card-4 w3-round-large">파일 게시판</h1>
+	<h1 class="w3-col w3-teal w3-padding w3-card-4 w3-round-large w3-btn" id="home">파일 게시판</h1>
 	<div class="w3-col mgt10">
-		<div class="inblock w3-left w3-btn w3-small w3-sand" id="home">메인화면</div>
 <c:if test="${not empty SID}">
 		<div class="inblock w3-btn w3-small w3-right w3-blue-gray" id="write">글작성</div>
 		<div class="inblock w3-btn w3-small w3-left w3-pale-red" id="logout">로그아웃</div>
@@ -67,29 +86,52 @@ $(document).ready(function(){
 		<div class="inblock w3-right w3-btn w3-small w3-pale-blue" id="login">로그인</div>
 </c:if>
 		<div class="w3-col w3-margin-top">
-			<div class="w3-blue-gray inblock" style="width: 80px">글번호</div>
-			<div class="w3-blue-gray inblock" style="width: 220px">글제목</div>
-			<div class="w3-blue-gray inblock" style="width: 165px">작성일</div>
-			<div class="w3-blue-gray inblock" style="width: 80px">작성자</div>
-			<div class="w3-blue-gray inblock" style="width: 80px">파일</div>
-		</div>
-<c:if test="${not empty LIST }">
+			<div class="w3-col w3-center">
+				<div class="inblock w3-left pdr5" style="width: 100px;"><div class="w3-blue-gray">글번호</div></div>
+				<div class="inblock w3-right" style="width: 50px;"><div class="w3-blue-gray">파일</div></div>
+				<div class="inblock w3-right pdr5" style="width: 170px;"><div class="w3-blue-gray">작성일</div></div>
+				<div class="inblock w3-right pdr5" style="width: 150px;"><div class="w3-blue-gray">작성자</div></div>
+				<div class="w3-rest pdr5"><div class="w3-blue-gray">글제목</div></div>
+			</div>
+<c:if test="${not empty LIST}">
 	<c:forEach var="DATA" items="${LIST}">
-		<div class="w3-col w3-margin-top fblist" id="${DATA.bno}">
-			<div class="w3-border inblock w3-left-align fbno" style="width: 80px">${DATA.bno}</div>
-			<div class="w3-border inblock w3-left-align file" style="width: 220px">${DATA.title}</div>
-			<div class="w3-border inblock w3-left-align wdate" style="width: 165px">${DATA.sdate }</div>
-			<div class="w3-border inblock w3-left-align writer" style="width: 80px">${DATA.id }</div>
-			<div class="w3-border inblock w3-left-align file" style="width: 80px">${DATA.cnt }</div>
-		</div>
+		<c:if test="${not empty SID}">
+			<div class="w3-col w3-border-bottom w3-margin-top fblist" id="${DATA.bno}">
+		</c:if>
+		<c:if test="${empty SID}">
+			<div class="w3-col w3-border-bottom w3-margin-top" id="${DATA.bno}">
+		</c:if>
+				<div class="inblock w3-left pdr5" style="width: 100px;"><div class="w3-center fbno">${DATA.bno}</div></div>
+				<div class="inblock w3-right" style="width: 50px;"><div class="w3-center file">${DATA.cnt}</div></div>
+				<div class="inblock w3-right pdr5" style="width: 170px;"><small class="w3-center wdate">${DATA.sdate}</small></div>
+				<div class="inblock w3-right pdr5" style="width: 150px;"><div class="w3-center writer">${DATA.id}</div></div>
+				<div class="w3-rest pdr5">
+					<div class="title">${DATA.title}</div>
+				</div>
+			</div>
 	</c:forEach>
 	<div class="w3-col w3-center w3-margin-top">
-		<div class="w3-bar w3-border w3-round">
-			<span class="w3-bar-item w3-button w3-light-gray w3-hover-blue-gray" id="${PAGE.startPage - 1}">&laquo;</span>
+		<div class="w3-bar w3-round">
+<c:if test="${PAGE.startPage eq 1}">
+			<span class="w3-bar-item w3-light-gray" id="${PAGE.startPage - 1}" >&laquo;</span>
+</c:if>
+<c:if test="${PAGE.startPage ne 1}">
+			<span class="w3-bar-item w3-button w3-light-gray w3-hover-blue-gray pageBtn" id="${PAGE.startPage - 1}" >&laquo;</span>
+</c:if>
 <c:forEach var="pno" begin="${PAGE.startPage}" end="${PAGE.endPage}">
-			<span class="w3-bar-item w3-button">${pno}</span>
+	<c:if test="${PAGE.nowPage eq pno}">
+				<span class="w3-bar-item pageBtn w3-pink" id="${pno}">${pno}</span>
+	</c:if>
+	<c:if test="${PAGE.nowPage ne pno}">
+				<span class="w3-bar-item w3-button pageBtn" id="${pno}">${pno}</span>
+	</c:if>
 </c:forEach>
-			<span class="w3-bar-item w3-button w3-light-gray w3-hover-blue-gray" id="${PAGE.endPage + 1}">&raquo;</span>
+<c:if test="${PAGE.endPage ne PAGE.totalPage}">
+			<span class="w3-bar-item w3-button w3-light-gray w3-hover-blue-gray pageBtn" id="${PAGE.endPage + 1}">&raquo;</span>
+</c:if>
+<c:if test="${PAGE.endPage eq PAGE.totalPage}">
+			<span class="w3-bar-item w3-light-gray">&raquo;</span>
+</c:if>
 		</div>
 	</div>
 </c:if>

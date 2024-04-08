@@ -30,7 +30,6 @@ public class FileBoard {
 		int totalCnt = fDao.getTotal();
 		
 		page.setPage(nowPage, totalCnt);
-		System.out.println(page);
 		
 		// 데이터베이스에서 조회
 		List<BoardVO> list = fDao.getList(page);
@@ -43,10 +42,11 @@ public class FileBoard {
 	}
 	
 	@RequestMapping("/fileboardDetail.son")
-	public ModelAndView boardDetail(ModelAndView mv, HttpSession session, RedirectView rv, int bno) {
+	public ModelAndView boardDetail(ModelAndView mv, HttpSession session, RedirectView rv, BoardVO bVO, PageUtil page) {
+		bVO = fDao.getBnoDetail(bVO.getBno());
+		mv.addObject("DATA", bVO);
+		mv.addObject("PAGE", page);
 		mv.setViewName("fboard/fileboardDetail");
-		String[] list = {"0001.jpg", "0002.jpg", "0003.jpg"};
-		mv.addObject("LIST", list);
 		return mv;
 	}
 	@RequestMapping("/fileboardWrite.son")
@@ -55,18 +55,22 @@ public class FileBoard {
 		return mv;
 	}
 	@RequestMapping("/writeProc.son")
-	public ModelAndView writeProc(ModelAndView mv, HttpSession session, RedirectView rv, BoardVO bVO){
+	public ModelAndView writeProc(HttpSession session, ModelAndView mv, 
+											RedirectView rv, BoardVO bVO) {
 		/*
 			할일
 				파라미터를 받아야 한다.
-				지금까지는 매개변수에 VO를 선언해주면 키값과 동일한 변수를 찾아서
-				데이터를 채워줬는데
-				지금은 바이트 단위로 데이터를 전송하기 때문에 데이터를 꺼내는 방식
+				지금까지는 매개변수에 VO 를 선언해주면 키값과 동일한 변수를 찾아서
+				데이터를 채워줬는데 
+				지금은 바이트 단위로 데이터를 전송하기 때문에 데이터를 꺼내는 방식도 달라져야 한다.
+				
+				
 		 */
 		MultipartFile[] file = bVO.getFile();
-		for(MultipartFile f : file) {
-			
-		}
+		
+		
+		System.out.println("title : " + bVO.getTitle());
+		
 		rv.setUrl("/fboard/fileboard.son");
 		mv.setView(rv);
 		return mv;
