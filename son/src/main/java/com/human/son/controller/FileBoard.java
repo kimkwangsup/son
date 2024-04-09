@@ -4,22 +4,27 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.*;
+import org.springframework.web.servlet.*;
+import org.springframework.web.servlet.view.*;
 
-import com.human.son.dao.FileBoardDao;
+import com.human.son.dao.*;
+import com.human.son.service.*;
 import com.human.son.util.*;
-import com.human.son.vo.BoardVO;
+import com.human.son.vo.*;
 
 @Controller
 @RequestMapping("/fboard")
 public class FileBoard {
 	@Autowired
 	FileBoardDao fDao;
+	@Autowired
+	FileBoardService fService;
+	
+	
 	@RequestMapping("/fileboard.son")
 	public ModelAndView boardList(ModelAndView mv, HttpSession session, RedirectView rv, PageUtil page) {
 		// 할일
@@ -66,12 +71,15 @@ public class FileBoard {
 				
 				
 		 */
-		MultipartFile[] file = bVO.getFile();
+//		MultipartFile[] file = bVO.getFile();
+		// fileboard 테이블에 데이터 입력하고
+		boolean bool = fService.insertProc(bVO);
+		if(bool == true) {
+			rv.setUrl("/fboard/fileboard.son");
+		}else {
+			rv.setUrl("/fboard/fileboardWrite.son");
+		}
 		
-		
-		System.out.println("title : " + bVO.getTitle());
-		
-		rv.setUrl("/fboard/fileboard.son");
 		mv.setView(rv);
 		return mv;
 	}

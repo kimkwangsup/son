@@ -10,8 +10,11 @@
 	
 	<bean id="fileUtil" class="com.human.son.util.FileUtil" />
 	<bean id="page" class="com.human.son.util.PageUtil" />
+	
 	<bean id="mDao" class="com.human.son.dao.MemberDao" />
 	<bean id="gDao" class="com.human.son.dao.GboardDao" />
 	<bean id="fDao" class="com.human.son.dao.FileBoardDao" />
+	
+	<bean id="fileService" class="com.human.son.service.FileBoardService" />
 	
 </beans>

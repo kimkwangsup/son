@@ -36,6 +36,7 @@
 		WHERE
 			isshow = 'Y'
 	</select>
+	
 	<!-- 게시글 상세조회 질의명령 -->
 	<select id="selDetail" resultType="bVO" parameterType="int">
 		SELECT
@@ -45,10 +46,7 @@
 		WHERE
 			writer = mno
 			AND fbno = #{bno}
-		
 	</select>
-	
-	
 	
 	<insert id="addBoard" parameterType="bVO">
 		INSERT INTO
@@ -68,9 +66,24 @@
 	
 	<insert id="addFile" parameterType="fVO">
 		INSERT INTO
-			fileinfo(fileno, fbno, upname, savename, len)
+			fileinfo(fileno, upname, savename, len, fbno)
 		VALUES(
-			fileSEQ.NEXTVAL, #{bno}, #{upname}, #{savename}, #{len}
+			fileSEQ.NEXTVAL, #{upname}, #{savename}, #{len}, 
+			(
+				SELECT
+					MAX(fbno)
+				FROM
+					fileboard
+				WHERE
+					writer = (
+								SELECT
+									mno
+								FROM
+									member
+								WHERE
+									id = #{id}
+							)
+			)
 		)
 	</insert>
 </mapper>
