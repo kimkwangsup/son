@@ -49,7 +49,9 @@ public class FileBoard {
 	@RequestMapping("/fileboardDetail.son")
 	public ModelAndView boardDetail(ModelAndView mv, HttpSession session, RedirectView rv, BoardVO bVO, PageUtil page) {
 		bVO = fDao.getBnoDetail(bVO.getBno());
+		List list = fDao.getImgList(bVO.getBno());
 		mv.addObject("DATA", bVO);
+		mv.addObject("LIST", list);
 		mv.addObject("PAGE", page);
 		mv.setViewName("fboard/fileboardDetail");
 		return mv;

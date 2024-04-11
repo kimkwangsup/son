@@ -3,6 +3,7 @@ package com.human.son.service;
 import java.io.*;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.*;
 
 import com.human.son.dao.*;
@@ -74,6 +75,7 @@ public class FileBoardService {
 	/**
 	 * 게시글과 파일정보 데이터를 데이터베이스에 입력하는 함수
 	 */
+	@Transactional
 	public boolean insertProc(BoardVO bVO) {
 		// 반환값 변수
 		boolean bool = true;
@@ -93,6 +95,7 @@ public class FileBoardService {
 		for(int i = 0 ; i < bVO.getFile().length; i++) {
 			// vo 만들고
 			FileVO fVO = new FileVO();
+			fVO.setBno(bVO.getBno());
 			// 업로드 파일이름 꺼내고
 			String oriname = bVO.getFile()[i].getOriginalFilename();
 			// 파일 크기
@@ -103,8 +106,7 @@ public class FileBoardService {
 			fVO.setUpname(oriname);
 			fVO.setSavename(sname[i]);
 			fVO.setLen(len);
-			fVO.setId(bVO.getId());
-			cnt += fDao.addFileInfo(fVO);
+			fcnt += fDao.addFileInfo(fVO);
 		}
 		if(fcnt != bVO.getFile().length) {
 			bool = false;

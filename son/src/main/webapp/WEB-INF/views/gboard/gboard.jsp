@@ -90,7 +90,7 @@
 <c:forEach var="DATA" items="${LIST }">
 			<div class="w3-col w3-card-4 mgt10 w3-teal" style="padding: 7px;">
 				<div class="w3-col" style="width: 110px; height: 100px; padding-right: 10px; border-right: 1px solid lightgrey">
-					<img src="/resources/image/avatar/${DATA.sname}" class="imgBox w3-left" >
+					<img src="/image/avatar/${DATA.sname}" class="imgBox w3-left" >
 				</div>
 				<div class="w3-rest" style="padding-right: 10px;">
 					<div class="w3-col">
@@ -121,6 +121,30 @@
 				<div class="w3-half w3-light-gray w3-btn" id="cbtn">취소</div>
 			</footer>
 		</form>
+			<div class="w3-col w3-center w3-margin-top">
+		<div class="w3-bar w3-round">
+<c:if test="${PAGE.startPage eq 1}">
+			<span class="w3-bar-item w3-light-gray" id="${PAGE.startPage - 1}" >&laquo;</span>
+</c:if>
+<c:if test="${PAGE.startPage ne 1}">
+			<span class="w3-bar-item w3-button w3-light-gray w3-hover-blue-gray pageBtn" id="${PAGE.startPage - 1}" >&laquo;</span>
+</c:if>
+<c:forEach var="pno" begin="${PAGE.startPage}" end="${PAGE.endPage}">
+	<c:if test="${PAGE.nowPage eq pno}">
+				<span class="w3-bar-item pageBtn w3-pink" id="${pno}">${pno}</span>
+	</c:if>
+	<c:if test="${PAGE.nowPage ne pno}">
+				<span class="w3-bar-item w3-button pageBtn" id="${pno}">${pno}</span>
+	</c:if>
+</c:forEach>
+<c:if test="${PAGE.endPage ne PAGE.totalPage}">
+			<span class="w3-bar-item w3-button w3-light-gray w3-hover-blue-gray pageBtn" id="${PAGE.endPage + 1}">&raquo;</span>
+</c:if>
+<c:if test="${PAGE.endPage eq PAGE.totalPage}">
+			<span class="w3-bar-item w3-light-gray">&raquo;</span>
+</c:if>
+		</div>
+	</div>
 	</div>
 <c:if test="${not empty MSG}">
 	<div id="msg" class="w3-modal">

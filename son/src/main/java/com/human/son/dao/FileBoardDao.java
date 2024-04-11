@@ -39,4 +39,10 @@ public class FileBoardDao {
 	public int addFileInfo(FileVO fVO) {
 		return session.insert("fSQL.addFile", fVO);
 	}
+	/**
+	 * 첨부파일 리스트 조회 전담 처리함수
+	 */
+	public List<FileVO> getImgList(int bno){
+		return session.selectList("fSQL.imgList", bno);
+	}
 }
