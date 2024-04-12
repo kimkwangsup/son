@@ -85,4 +85,94 @@ public class FileBoard {
 		mv.setView(rv);
 		return mv;
 	}
+	/**
+	 * 게시글 삭제 요청 전담 처리함수
+	 */
+	@RequestMapping("/fboardDelProc.son")
+	public ModelAndView delProc(HttpSession session, ModelAndView mv, RedirectView rv, int bno, int nowPage, BoardVO bVO) {
+		// 할일
+		// 세션 검사하고
+		String sid = (String) session.getAttribute("SID");
+		if(sid == null) {
+			// 로그인 안한 경우
+			// ==> 삭제 처리 하면 안된다.
+			rv.setUrl("/member/login.son");
+			mv.setView(rv);
+			return mv;
+		}
+		bVO.setId(sid);
+		// 로그인한 사람과 작성자 일치 여부 확인
+		// 로그인한 사람의 회원 번호 조회
+		// ==> update 질의명령의 조건절에서 처리하므로 필요 없다.
+		
+		// 데이터베이스 작업하고 결과받고
+		int cnt = fDao.delFboard(bVO);
+		// 결과 처리에 따라서 페이지 번호와 전달 메세지(msg)를 전달해줘야 한다.
+		// 결과값 변수
+		String msg = "YES";
+		if(cnt != 1) {
+			// 삭제에 실패
+			msg = "NO";
+		}
+		// 뷰세팅
+		rv.setUrl("/fboard/fileboard.son?nowPage=" + nowPage + "&MSG=" + msg);
+		mv.setView(rv);
+		return mv;
+	};
+	/**
+	 * 게시글 수정 폼보기 요청 전담 처리함수
+	 */
+	@RequestMapping("/fileboardEdit.son")
+	public ModelAndView boardEdit(HttpSession session, ModelAndView mv, RedirectView rv, BoardVO bVO, int nowPage) {
+		// 할일
+		// 세션검사
+		String sid = (String) session.getAttribute("SID");
+		if(sid == null) {
+			rv.setUrl("/member/login.son");
+			mv.setView(rv);
+			return mv;
+		}
+		// 글번호에 해당하는 상세내용 조회
+		bVO = fDao.getBnoDetail(bVO.getBno());
+		// 첨부파일 리스트 조회
+		List<FileVO> list = fDao.getImgList(bVO.getBno());
+		
+		mv.addObject("nowPage", nowPage); // 현재페이지
+		mv.addObject("DATA", bVO); // 게시글 정보
+		mv.addObject("LIST", list);// 이미지리스트
+		// 뷰세팅
+		mv.setViewName("fboard/fileboardEdit");
+		
+		return mv;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

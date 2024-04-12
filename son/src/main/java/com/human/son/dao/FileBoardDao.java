@@ -45,4 +45,10 @@ public class FileBoardDao {
 	public List<FileVO> getImgList(int bno){
 		return session.selectList("fSQL.imgList", bno);
 	}
+	/**
+	 * 게시글 삭제 데이터베이스 작업 처리함수
+	 */
+	public int delFboard(BoardVO bVO) {
+		return session.update("fSQL.delFboard", bVO);
+	}
 }

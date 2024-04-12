@@ -41,7 +41,7 @@ public class Gboard {
 			mv.addObject("CNT", cnt);
 		}
 		// 리스트 조회
-		List<BoardVO> list = gDao.getGboardList();
+		List<BoardVO> list = gDao.getGboardList(page);
 		
 		// 리스트를 뷰에 전달
 		mv.addObject("LIST", list);

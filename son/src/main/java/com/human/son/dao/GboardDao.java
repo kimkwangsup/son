@@ -5,6 +5,7 @@ import java.util.*;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.human.son.util.PageUtil;
 import com.human.son.vo.*;
 
 public class GboardDao {
@@ -14,8 +15,8 @@ public class GboardDao {
 	/**
 	 * 방명록 전체 조회 전담처리함수
 	 */
-	public List<BoardVO> getGboardList(){
-		return session.selectList("gSQL.selList");
+	public List<BoardVO> getGboardList(PageUtil page){
+		return session.selectList("gSQL.selList", page);
 	}
 	/**
 	 * 작성한 방명록 갯수 조회 전담 처리함수

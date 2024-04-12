@@ -66,6 +66,12 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
+<c:if test="${not empty param.MSG}">
+	<script type="text/javascript">
+		var msg = '${param.MSG}' == 'YES' ? '삭제작업에 성공했습니다.' : '오류가 발생했습니다.';
+		alert(msg);
+	</script>
+</c:if>
 	<!-- 전송용 폼태그 -->
 	<form method="POST" action="/fboard/fileboardDetail.son" id="frm" name="frm">
 		<input type="hidden" name="bno" id="bno">

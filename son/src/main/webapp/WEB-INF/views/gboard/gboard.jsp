@@ -67,10 +67,23 @@
 			}
 			$('#frm').submit();
 		});
+		$('.pageBtn').click(function(){
+			// 할일
+			// 어떤 버튼이 클릭되었는지 알아내서 페이지 번호를 꺼내온다.
+			var spage = $(this).attr('id');
+			$('#nowPage').val(spage);
+			
+			// 폼태그 전송
+			$('#pageFrm').submit();
+		});
 	});
 </script>
 </head>
 <body style="background-color: gray">
+	<form method="post" action="/gboard/gboard.son" id="pageFrm">
+		<input type="hidden" name="nowPage" id="nowPage">
+	</form>
+	
 	<div class="w3-content mxw600">
 		<h1 class="w3-col w3-pale-green w3-center w3-padding w3-card-4 w3-round-large">son 방명록</h1>
 		<div class="w3-col">
@@ -104,6 +117,30 @@
 				</div>
 			</div>
 </c:forEach>
+			<div class="w3-col w3-center w3-margin-top">
+		<div class="w3-bar w3-round">
+<c:if test="${PAGE.startPage eq 1}">
+			<span class="w3-bar-item w3-pale-red" id="${PAGE.startPage - 1}" >&laquo;</span>
+</c:if>
+<c:if test="${PAGE.startPage ne 1}">
+			<span class="w3-bar-item w3-button w3-pale-red w3-hover-blue-gray pageBtn" id="${PAGE.startPage - 1}" >&laquo;</span>
+</c:if>
+<c:forEach var="pno" begin="${PAGE.startPage}" end="${PAGE.endPage}">
+	<c:if test="${PAGE.nowPage eq pno}">
+				<span class="w3-bar-item pageBtn w3-red" id="${pno}">${pno}</span>
+	</c:if>
+	<c:if test="${PAGE.nowPage ne pno}">
+				<span class="w3-bar-item w3-button pageBtn w3-pale-green" id="${pno}">${pno}</span>
+	</c:if>
+</c:forEach>
+<c:if test="${PAGE.endPage ne PAGE.totalPage}">
+			<span class="w3-bar-item w3-button w3-pale-red w3-hover-blue-gray pageBtn" id="${PAGE.endPage + 1}">&raquo;</span>
+</c:if>
+<c:if test="${PAGE.endPage eq PAGE.totalPage}">
+			<span class="w3-bar-item w3-pale-red">&raquo;</span>
+</c:if>
+		</div>
+	</div>
 		</div>
 	</div>
 	<div id="wmodal" class="w3-modal">
@@ -121,30 +158,6 @@
 				<div class="w3-half w3-light-gray w3-btn" id="cbtn">취소</div>
 			</footer>
 		</form>
-			<div class="w3-col w3-center w3-margin-top">
-		<div class="w3-bar w3-round">
-<c:if test="${PAGE.startPage eq 1}">
-			<span class="w3-bar-item w3-light-gray" id="${PAGE.startPage - 1}" >&laquo;</span>
-</c:if>
-<c:if test="${PAGE.startPage ne 1}">
-			<span class="w3-bar-item w3-button w3-light-gray w3-hover-blue-gray pageBtn" id="${PAGE.startPage - 1}" >&laquo;</span>
-</c:if>
-<c:forEach var="pno" begin="${PAGE.startPage}" end="${PAGE.endPage}">
-	<c:if test="${PAGE.nowPage eq pno}">
-				<span class="w3-bar-item pageBtn w3-pink" id="${pno}">${pno}</span>
-	</c:if>
-	<c:if test="${PAGE.nowPage ne pno}">
-				<span class="w3-bar-item w3-button pageBtn" id="${pno}">${pno}</span>
-	</c:if>
-</c:forEach>
-<c:if test="${PAGE.endPage ne PAGE.totalPage}">
-			<span class="w3-bar-item w3-button w3-light-gray w3-hover-blue-gray pageBtn" id="${PAGE.endPage + 1}">&raquo;</span>
-</c:if>
-<c:if test="${PAGE.endPage eq PAGE.totalPage}">
-			<span class="w3-bar-item w3-light-gray">&raquo;</span>
-</c:if>
-		</div>
-	</div>
 	</div>
 <c:if test="${not empty MSG}">
 	<div id="msg" class="w3-modal">
