@@ -51,4 +51,16 @@ public class FileBoardDao {
 	public int delFboard(BoardVO bVO) {
 		return session.update("fSQL.delFboard", bVO);
 	}
+	/**
+	 * 첨부파일 삭제 데이터베이스 작업 전담 처리함수
+	 */
+	public int delImg(int fno) {
+		return session.update("fSQL.delImg", fno);
+	}
+	/**
+	 * 첨부파일들 일괄 삭제 데이터베이스 작업 전담 처리함수
+	 */
+	public int delImages(List list) {
+		return session.update("fSQL.delImages", list);
+	}
 }

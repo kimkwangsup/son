@@ -85,7 +85,7 @@
 
 # 파일게시판 게시글 상세보기 요청
 요청내용 	:	/fboard/fboardDetail.son
-파라미터	:	bno
+파라미터	:	bno, nowPage
 컨트롤러	:	com.human.son.controller.FileBoard
 처리함수	:	boardDetail()
 응답문서	:	/WEB-INF/views/fboard/fileboardDetail.jsp
@@ -121,6 +121,27 @@
 처리함수	:	delProc()
 응답문서	:	
 				redirect ] fboard/fileboard.son
+				
+# 첨부파일 삭제 처리요청	1			
+요청내용 	:	/fboard/fboardDelImg.son
+파라미터	:	fno
+컨트롤러	:	com.human.controller.FileBoard
+처리함수	:	delImgProc()
+응답문서	:	JSON	: {"result" : "OK : NO"}
+
+# 첨부파일 삭제 처리요청2				
+요청내용 	:	/fboard/delImgList.son
+파라미터	:	imgnos, bno, nowpage
+컨트롤러	:	com.human.controller.FileBoard
+처리함수	:	delImgList()
+응답문서	:	
+				redirect ] 	/fboard/fboardEdit.son
+# 게시글 수정 처리 요청
+요청내용 	:	/fboard/editProc.son
+파라미터	:	bno, title, body, nowPage
+컨트롤러	:	com.human.controller.FileBoard
+처리함수	:	editProc()
+응답문서	:	redirect ]	/fboard/fboardEdit.son
 -----------------------------------------------------------------------------
 # 방명록 관련 요청 설계
 

@@ -1,6 +1,6 @@
 package com.human.son.controller;
 
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -142,6 +142,59 @@ public class FileBoard {
 		mv.addObject("LIST", list);// 이미지리스트
 		// 뷰세팅
 		mv.setViewName("fboard/fileboardEdit");
+		
+		return mv;
+	}
+	/**
+	 * 첨부파일 삭제 요청 전담 처리함수.
+	 */
+	@ResponseBody
+	@RequestMapping("/fboardDelImg.son")
+	public HashMap<String, String> delImgProc(int fno){
+		// 반환값 변수
+		HashMap<String, String> map = new HashMap<String, String>();
+		
+		int cnt = fDao.delImg(fno); // 삭제 처리에 성공하면 1, 실패하면 0 반환
+		String result = "OK";
+		if(cnt != 1) {
+			// 삭제처리에 실패한 경우
+			result = "NO";
+		}
+		map.put("result", result);
+		return map;
+	}
+	/**
+	 *  이미지 삭제 일괄 처리 요청 전담 처리함수
+	 */
+	@RequestMapping("/delImgList.son")
+	public ModelAndView delImgList(HttpSession session, ModelAndView mv, RedirectView rv, BoardVO bVO, int nowPage) {
+		// 할일
+		// 세션검사
+		
+		// 데이터베이스 작업 처리
+		
+		int cnt = fDao.delImages(bVO.getImgList());
+		// 데이터 전달
+		mv.addObject("nowPage", nowPage);
+		mv.addObject("BNO", bVO.getBno());
+		mv.addObject("PATH", "/fboard/fileboardEdit.son");
+		
+		// 뷰를 부르고
+		// 여기서는 forward 방식으로 리다이렉트용 뷰를 만들어서 전달하는 것으로 한다.
+		/*
+			rv.setUrl("/fboard/fileboard.son?bno=" + bVO.getBno() + 
+													"&nowPage=" + nowPage);
+			mv.setView(rv)
+		 */
+		mv.setViewName("fboard/redirect");
+		return mv;
+	}
+	/**
+	 * 게시글 수정 처리 요청 전담 처리함수
+	 */
+	public ModelAndView editProc(HttpSession session, ModelAndView mv, RedirectView rv, int nowPage, BoardVO bVO) {
+		mv.addObject("nowPage", nowPage);
+		mv.addObject("BNO", bVO.getBno());
 		
 		return mv;
 	}

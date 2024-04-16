@@ -21,7 +21,8 @@
 								FROM
 									fileinfo
 								WHERE		
-									fbno = f.fbno            	
+									fbno = f.fbno
+									AND isshow = 'Y'            	
 				            ) cnt
 		                FROM
 		                    fileboard f, member m
@@ -119,6 +120,27 @@
 		WHERE
 			fbno = #{bno}
 			AND writer = #{mno}
-			
 	</update>
+	<!-- 글 삭제처리 질의명령 -->
+	<update id="delImg" parameterType="int">
+		UPDATE
+			fileinfo
+		SET
+			isshow = 'N'
+		WHERE
+			fileno = #{fno}
+	</update>
+	<!-- 첨부파일 일괄삭제 처리 질의명령 -->
+	<update id="delImages" parameterType="List">
+		UPDATE
+			fileinfo
+		SET
+			isshow = 'N'
+		WHERE
+			fileno IN 
+			<foreach item="fno" index="idx" collection="list" open="(" close=")" separator=",">
+				#{fno}
+			</foreach>
+	</update>
+	
 </mapper>

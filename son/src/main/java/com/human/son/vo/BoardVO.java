@@ -1,35 +1,48 @@
 package com.human.son.vo;
 
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.*;
-
 import org.springframework.web.multipart.*;
 
 public class BoardVO {
 	private int rno, bno, mno, ano, cnt;
 	private String name, id, title, body, sdate, sname;
 	private ArrayList<String> filenames;
+	private Integer[] imgnos;
+	private List<Integer> imgList;
 	private MultipartFile[] file;
 	private Date wdate;
 	/*
-	 	웹 통신의 방식은 문자 단위로 통신을 한다.
-	 	그런데 파일 전송은 문자단위로 하면 파일이 손상이 된다.
-	 	따라서 파일 전송은 바이트 단위로 해야하고
-	 	그 결과 파일 전송이 필요한 뷰에서는 
-	 	문자 단위가 아닌 byte 단위로 서버에 데이터를 전송해야 한다.
-	 	
-	 	방법은 전송할 폼의 encType을 multipart/form-data 로 하고 전송해야 한다.
-	 	
-	 	이때 전송되는 파일은 MultipartFile 타입으로 서버에 전송이 되고
-	 	꺼내는 방식도 기존에 꺼내던 파라미터로 꺼내는 방식이 아닌
-	 	다른 방식으로 꺼내야 한다.
-	 	
-	 	이때 전송하는 파일이 한개이면 일반 변수로 만들어주면 되는데
-	 	지금처럼 여러개의 파일이 업로드 되는 경우는 
-	 	name 속성이 같은 태그가 여러개가 전송이 될 것이므로
-	 	이럴 때는 배열 형태로 받아야 한다.
+		웹 통신의 방식은 문자단위로 통신을 한다.
+		그런데 파일 전송은 문자단위로 하면 파일이 손상이 된다.
+		따라서 파일 전송은 바이트 단위로 해야하고
+		그결과 파일 전송이 필요한 뷰에서는 
+		문자 단위가 아닌  byte 단위로 서버에 데이터를 전송해야 한다.
+		
+		방법은 전송할 폼의 encType을 multipart/form-data 로 하고 전송해야 한다.
+		
+		이때 전송되는 파일은 MultipartFile 타입으로 서버에 전송이 되고
+		꺼내는 방식도 기존에 꺼내던 파라미터로 꺼내는 방식이 아닌
+		다른 방식으로 꺼내야 한다.
+		
+		이때 전송되는 파일이 한개이면 일반 변수로 만들어주면 되는데
+		지금처럼 여러개의 파일이 업로드 되는 경우는
+		name 속성이 같은 태그가 여러개가 전송이 될 것이므로
+		이럴 때는 배열형태로 받아야 한다.
 	 */
-	
+	public Integer[] getImgnos() {
+		return imgnos;
+	}
+	public void setImgnos(Integer[] imgnos) {
+		this.imgnos = imgnos;
+		imgList = Arrays.asList(imgnos);
+	}
+	public List<Integer> getImgList() {
+		return imgList;
+	}
+	public void setImgList(List<Integer> imgList) {
+		this.imgList = imgList;
+	}
 	public int getRno() {
 		return rno;
 	}
@@ -113,7 +126,7 @@ public class BoardVO {
 	}
 	public void setWdate(Date wdate) {
 		this.wdate = wdate;
-		SimpleDateFormat form = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		sdate = form.format(wdate);
 	}
 	@Override
@@ -122,5 +135,4 @@ public class BoardVO {
 				+ id + ", title=" + title + ", body=" + body + ", sdate=" + sdate + ", sname=" + sname + ", filenames="
 				+ filenames + ", file=" + Arrays.toString(file) + ", wdate=" + wdate + "]";
 	}
-	
 }

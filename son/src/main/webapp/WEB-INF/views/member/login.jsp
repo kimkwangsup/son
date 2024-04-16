@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>ania login</title>
+<title>login</title>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="/css/w3.css">
 <link rel="stylesheet" type="text/css" href="/css/user.css">
@@ -19,22 +19,18 @@
     		$(location).attr('href', '/member/join.son');
     	});
     	$('#login').click(function(){
-    		// 데이터 읽고
     		var sid = $('#id').val();
     		if(!sid){
     			$('#id').focus();
     			return;
     		}
-    		
     		var spw = $('#pw').val();
     		if(!spw){
     			$('#pw').focus();
     			return;
     		}
-    		
     		$('#frm').attr('method', 'get').attr('action', '/member/loginProc.son');
     		$('#frm').submit();
-    		
     	});
     });
 </script>
