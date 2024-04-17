@@ -74,6 +74,12 @@
 처리함수	:	memberInfo()
 응답문서	:	JSON
 
+# 내 정보 보기 요청
+요청내용 	:	/member/myInfo.son
+파라미터	:	id
+컨트롤러	:	com.human.son.comtroller.Member
+처리함수	:	myInfo()
+응답문서	:	/WEB-INF/views/member/myInfo.jsp
 -----------------------------------------------------------------------------
 # 파일 게시판 관련 요청
 # 파일 게시판 리스트 보기 요청
@@ -96,6 +102,7 @@
 컨트롤러	:	com.human.son.controller.FileBoard
 처리함수	:	boardWrite()
 응답문서	:	/WEB-INF/views/fboard/fileboardWrite.jsp
+
 
 # 파일게시판 게시글 수정 폼보기 요청
 요청내용 	:	/fboard/fboardEdit.son
@@ -141,7 +148,9 @@
 파라미터	:	bno, title, body, nowPage
 컨트롤러	:	com.human.controller.FileBoard
 처리함수	:	editProc()
-응답문서	:	redirect ]	/fboard/fboardEdit.son
+응답문서	:	redirect ]	 
+							성공 : /fboard/fboardDetail.son
+							실패 : /fboard/fboardEdit.son
 -----------------------------------------------------------------------------
 # 방명록 관련 요청 설계
 

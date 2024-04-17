@@ -145,3 +145,8 @@
     overflow: hidden;
     border: 1px solid lightgrey;
 }
+.imgBox100{
+	width: 100px;
+	height: auto;
+	overflow: hidden;
+}

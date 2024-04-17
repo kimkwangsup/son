@@ -37,7 +37,23 @@ public class Member {
 		}
 		return mv;
 	}
-	
+	/**
+	 * 내 정보 게시판 보기 요청 전담 처리함수
+	 */
+	@RequestMapping("/myInfo.son")
+	public ModelAndView myInfo(HttpSession session, ModelAndView mv, RedirectView rv, MemberVO mVO) {
+		String view = "member/myInfo";
+		String id = (String) session.getAttribute("SID");
+		if(session.getAttribute("SID") == null) {
+			rv.setUrl("/member/login.son");
+			mv.setView(rv); 
+		} else {
+			mv.setViewName(view);
+		}
+		mVO = mDao.getMemberInfo(id);
+		mv.addObject("DATA", mVO);
+		return mv;
+	}
 	@RequestMapping("/loginProc.son")
 	public ModelAndView loginProc(HttpSession session, ModelAndView mv, RedirectView rv,
 			/* String id, String pw, */MemberVO mVO) {
@@ -189,6 +205,20 @@ public class Member {
 	public MemberVO memberInfo(String id) {
 		MemberVO mVO = mDao.getMemberInfo(id);
 		return mVO;
+	}
+	@RequestMapping("/myInfoEdit.son")
+	public ModelAndView myInfoEdit(ModelAndView mv, RedirectView rv, HttpSession session, MemberVO mVO) {
+		String view = "member/myInfoEdit";
+		String id = (String) session.getAttribute("SID");
+		if(session.getAttribute("SID") == null) {
+			rv.setUrl("/member/login.son");
+			mv.setView(rv); 
+		} else {
+			mv.setViewName(view);
+		}
+		mVO = mDao.getMemberInfo(id);
+		mv.addObject("DATA", mVO);
+		return mv;
 	}
 }
 

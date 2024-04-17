@@ -84,13 +84,25 @@ public class FileBoardService {
 		if(cnt != 1) {
 			return false;
 		}
-		// 파일 저장
+		
+		int fcnt = insertImgProc(bVO);
+		
+		if(fcnt != bVO.getFile().length) {
+			bool = false;
+		}
+		// 반환값 반환
+		return bool;
+	}
+	/**
+	 * 업로드 파일 데이터베이스 전담 처리함수
+	 */
+	public int insertImgProc(BoardVO bVO) {
+		int fcnt = 0;
 		String[] sname = uploadProc(bVO.getFile());
 		// 저장 경로
 		String path = this.getClass().getResource("/").getPath();
 		path += "../../resources/upload";
 		
-		int fcnt = 0;
 		// 파일 정보 입력
 		for(int i = 0 ; i < bVO.getFile().length; i++) {
 			// vo 만들고
@@ -108,11 +120,36 @@ public class FileBoardService {
 			fVO.setLen(len);
 			fcnt += fDao.addFileInfo(fVO);
 		}
-		if(fcnt != bVO.getFile().length) {
-			bool = false;
+		
+		return fcnt;
+	}
+	/**
+	 * 게시글 수정 처리 서비스 함수
+	 */
+	@Transactional
+	public boolean editProc(BoardVO bVO) {
+		// 이 함수는 다수의 데이터베이스작업을 처리하는 함수인데
+		// 처리 도중 한개라도 에러가 발생하면 롤백해주는 함수...
+		// 그 기능(트랜잭션)을 제공해주고 있는 요소가 @Transactional 어노테이션이다.
+
+		// 할일
+		// 반환값 변수
+		boolean bool = true;
+		if(bVO.getTitle() != null || bVO.getBody() != null) {
+			int cnt = fDao.editFboard(bVO);
+			if(cnt == 0) {
+				// 수정작업에 실패한 경우
+				bool = false;
+			}
 		}
 		
-		// 반환값 반환
+		// 업로드 된 파일이 있는지 확인해서 처리.
+		if(bVO.getFile() != null) {
+			int cnt = insertImgProc(bVO);
+			if(cnt != bVO.getFile().length) {
+				bool = false;
+			}
+		}
 		return bool;
 	}
 }

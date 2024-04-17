@@ -15,9 +15,18 @@
 </style>
 <script type="text/javascript">
 	$(document).ready(function(){
+		var fno = 1;
+		function getFno(){
+			fno += 1;
+			return fno;
+		}
 		$('#home').click(function(){
 			$(location).attr('href', '/main.son');
 		});
+			
+		
+		
+		
 		/* 1. 비동기 통신으로 처리하는 방법
 		$('.imgBtn').click(function(){
 			// 삭제처리 확인
@@ -89,10 +98,74 @@
 			$('#imgFrm').attr('action', '/fboard/fileboard.son');
 			$('#imgFrm').submit();
 		});
+		
+		$('#fileBox').on('change', document.frm.file, function(evt){
+			var filename = evt.target.value;
+			var tid = evt.target.id;
+			var first_id = $('#fileBox > input').first().attr('id');
+			var old_no = tid.substring(3);
+			// 선택된 이미지 URL 꺼내기
+			if(!filename){
+				if(tid != ('file' + first_id)){
+					$('#' + tid).remove();
+					$('#imgFr' + old_no).remove();
+				}
+			}else{
+				var imgPath = URL.createObjectURL(evt.target.files[0]);
+				if(tid == first_id){
+					// 마지막 태그에서 파일을 선택하는 경우
+					var tno = getFno();
+					var el1 = document.createElement('input');
+					$(el1).attr('type', 'file');
+					$(el1).attr('id', 'file' + tno);
+					$(el1).attr('name', 'file');
+					$(el1).addClass('w3-input w3-center w3-text-blue-gray w3-border w3-border-bottom mgt10');
+					$('#fileBox').prepend(el1);
+					
+					
+					var imgEl = document.createElement('img');
+					$(imgEl).attr('id', 'img' + old_no);
+					$(imgEl).attr('width', '100');
+					$(imgEl).attr('height', 'auto');
+					$(imgEl).attr('src', imgPath);
+					
+					
+					var imgFr = document.createElement('div');
+					$(imgFr).addClass('imgBox100 w3-border inblock mgw10 w3-margin-top');
+					$(imgFr).append(imgEl);
+					$(imgFr).attr('id', 'imgFr' + old_no);
+					$('#imgBox').append(imgFr);
+				}else{
+					// 마지막이 아닌 태그들이 변경되는 경우
+					$('#img' + old_no).attr('src', imgPath);
+				}
+			}
+		});
+		$('#edit').click(function(){
+			var oldTitle = $('#oldTitle').val();
+			var oldBody = $('#oldBody').val();
+			
+			var newTitle = $('#title').val();
+			var newBody = $('#body').val();
+			
+			if(newTitle == oldTitle){
+				$('#title').prop('disabled', true);
+			}
+			if(newBody == oldBody){
+				$('#body').prop('disabled', true);
+			}
+			$('[type="file"]').first().prop('disabled', true);
+			
+			$('#frm').submit();
+		});
 	});
 </script>
 </head>
 <body>
+	<div class="w3-hide">
+		<input type="hidden" id="oldTitle" value="${DATA.title}">
+		<textarea id="oldBody">${DATA.body}</textarea>
+	</div>
 	<!-- 이미지 번호 전송용 폼태그 -->
 	<form method="post" action="/fboard/delImgList.son" name="imgFrm" id="imgFrm">
 		<input type="hidden" name="bno" value="${DATA.bno}">
@@ -126,12 +199,15 @@
 					<span class="w3-xxlarge fa fa-file-image-o"></span>첨부파일 :
 				</label>
 		    	<div class="w3-rest mgt20">
-		    		<div class="w3-col"  id="fileBox">
-			    		<input type="file" class="w3-input w3-center w3-text-blue-gray w3-border w3-border-bottom" id="file1" name="file">
+		    	<div class="w3-col w3-margin w3-center" id="imgBox"></div>
+		    		<div class="w3-col" id="fileBox">
+			    		<input type="file" class="w3-input w3-center w3-text-blue-gray w3-border w3-border-bottom mgt10" id="file1" name="file">
 		    		</div>
 		    		<div class="w3-col w3-rest w3-center w3-left-align pdl10" id="files">
 <c:forEach var="IMG" items="${LIST}">
-						<img src="${IMG.dir}${IMG.savename}" class="w3-btn imgBtn" width="100" height="auto"  id="img${IMG.fno}">
+						<div class="inblock w3-border imgBox100 mgw10 w3-margin-top w3-btn imgBtn"  id="img${IMG.fno}">
+							<img src="${IMG.dir}${IMG.savename}" width="100" height="auto"">
+						</div>
 </c:forEach>
 					</div>
 					<div class="w3-col w3-hide" id="delfiles">

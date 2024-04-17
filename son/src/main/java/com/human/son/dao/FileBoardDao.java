@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.mybatis.spring.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.human.son.util.*;
 import com.human.son.vo.*;
@@ -62,5 +63,11 @@ public class FileBoardDao {
 	 */
 	public int delImages(List list) {
 		return session.update("fSQL.delImages", list);
+	}
+	/**
+	 * 게시글 수정 데이터베이스 작업 전담 처리함수
+	 */
+	public int editFboard(BoardVO bVO) {
+		return session.update("fSQL.editFboard",bVO);
 	}
 }

@@ -192,10 +192,24 @@ public class FileBoard {
 	/**
 	 * 게시글 수정 처리 요청 전담 처리함수
 	 */
+	@RequestMapping("/editProc.son")
 	public ModelAndView editProc(HttpSession session, ModelAndView mv, RedirectView rv, int nowPage, BoardVO bVO) {
+		// 할일
+		// 서비스 함수 호출해서 처리
+		boolean bool = fService.editProc(bVO);
+		String path = "/fboard/fileboardDetail.son";
+		if(!bool) {
+			// 실패한 경우 수정페이지로 리다이렉트
+			path = "/fboard/fileboardEdit.son";
+		}
+		// 데이터 전달하고
+		mv.addObject("PATH", path);
 		mv.addObject("nowPage", nowPage);
 		mv.addObject("BNO", bVO.getBno());
 		
+		// 뷰 부르고
+		mv.setViewName("fboard/redirect");
+		// 반환하고
 		return mv;
 	}
 }

@@ -38,7 +38,7 @@
 		});
 		*/
 		
-		
+		/*
 		function addTag(e1){
 			var sfile = $(e1).val();
 			
@@ -56,7 +56,55 @@
 		}
 		$('#file1').change(function(){
 			addTag(this);
-		})
+		});
+		*/
+		$('#fileBox').on('change', document.frm.file, function(evt){
+			
+			var filename = evt.target.value;
+			var tid = evt.target.id;
+			var last_id = $('#fileBox > input').last().attr('id');
+			var old_no = tid.substring(3);
+			// 선택된 이미지 URL 꺼내기
+			if(!filename){
+				if(tid != ('file' + last_id)){
+					$('#' + tid).remove();
+					$('#imgFr' + old_no).remove();
+				}
+			}else{
+				var imgPath = URL.createObjectURL(evt.target.files[0]);
+				if(tid == last_id){
+					// 마지막 태그에서 파일을 선택하는 경우
+					var tno = getFno();
+					var el1 = document.createElement('input');
+					$(el1).attr('type', 'file');
+					$(el1).attr('id', 'file' + tno);
+					$(el1).attr('name', 'file');
+					$(el1).addClass('w3-input w3-center w3-text-blue-gray w3-border w3-border-bottom');
+					$('#fileBox').append(el1);
+					
+					
+					var imgEl = document.createElement('img');
+					$(imgEl).attr('id', 'img' + old_no);
+					$(imgEl).attr('width', '100');
+					$(imgEl).attr('height', 'auto');
+					$(imgEl).attr('src', imgPath);
+					
+					
+					var imgFr = document.createElement('div');
+					$(imgFr).addClass('imgBox100 w3-border inblock mgw10 w3-margin-bottom');
+					$(imgFr).append(imgEl);
+					$(imgFr).attr('id', 'imgFr' + old_no);
+					$('#imgBox').append(imgFr);
+				}else{
+					// 마지막이 아닌 태그들이 변경되는 경우
+					$('#img' + old_no).attr('src', imgPath);
+				}
+			}
+		});
+		
+		
+		
+		
 		
 		$('#write').click(function(){
 			var sid = $('#id').val();
@@ -112,9 +160,14 @@
 				<label class="w3-col w3-right-align lbl" style="width: 150px;">
 					<span class="w3-xxlarge fa fa-file-image-o"></span>첨부파일 :
 				</label>
-		    	<div class="w3-rest mgt10" id="fileBox">
-		    		<input type="file" class="w3-input w3-center w3-text-blue-gray w3-border w3-border-bottom" id="file1" name="file">
-		    	</div>
+				<div class="w3-rest mgt10">
+			    	<div class="w3-col mgt10" id="fileBox">
+			    		<input type="file" class="w3-input w3-center w3-text-blue-gray w3-border w3-border-bottom" id="file1" name="file">
+			    	</div>
+			    	<div class="w3-col mgt20 w3-center" id="imgBox">
+			    	
+			    	</div>
+				</div>
 			</div>
 			 
 			

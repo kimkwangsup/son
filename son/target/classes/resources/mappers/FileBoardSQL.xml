@@ -15,15 +15,15 @@
 		            (
 		                SELECT
 		                    fbno bno, title, body, mno, id, wdate,
-	                    	(
-								SELECT
-									COUNT(*)
-								FROM
-									fileinfo
-								WHERE		
-									fbno = f.fbno
-									AND isshow = 'Y'            	
-				            ) cnt
+		                    (
+		                    	SELECT
+		                    		COUNT(*)
+		                    	FROM
+		                    		fileinfo
+		                    	WHERE
+		                    		isshow = 'Y'
+		                    		AND fbno = f.fbno
+		                    ) cnt
 		                FROM
 		                    fileboard f, member m
 		                WHERE
@@ -56,29 +56,28 @@
 			writer = mno
 			AND fbno = #{bno}
 	</select>
+	
 	<!-- 첨부파일 리스트 조회 질의명령 -->
 	<select id="imgList" resultType="fVO" parameterType="int">
 		SELECT
 			fileno fno, savename, dir
 		FROM
-			fileinfo
+			fileInfo
 		WHERE
 			isshow = 'Y'
 			AND fbno = #{bno}
-	
 	</select>
 	
-	
 	<insert id="addBoard" parameterType="bVO">
-		<!-- 
-			메인 질의명령이 실행되기 전 또는 후에 질의명령을 보내서
-			데이터를 꺼내서 사용할 수 있는 방법
-			
-			selectKey 태그는 한개만 추가할 수 있고
-			한개의 데이터만 조회할 수 있다.
-		 -->
+	<!--  
+		메인 질의명령이 실행되기 전 또는 후에 질의명령을 보내서
+		데이터를 꺼내서 사용할 수 있는 방법
+		
+		selectKey 태그는 한개만 추가할 수 있고
+		한개의 데이터만 조회할 수 있다.
+	-->
 		<selectKey keyProperty="bno" resultType="int" order="BEFORE">
-			SELECT fbrdseq.nextval from dual
+			SELECT fbrdseq.NEXTVAL FROM dual
 		</selectKey>
 		INSERT INTO
 			fileboard(fbno, title, body, writer)
@@ -103,7 +102,7 @@
 		)
 	</insert>
 	
-	<!-- 게시글 삭제처리 질의명령 -->
+	<!-- 게시글 삭제 처리 질의 명령 -->
 	<update id="delFboard" parameterType="bVO">
 		<selectKey keyProperty="mno" resultType="int" order="BEFORE">
 			SELECT
@@ -111,7 +110,7 @@
 			FROM
 				member
 			WHERE
-				id = #{id}								
+				id = #{id}
 		</selectKey>
 		UPDATE
 			fileboard
@@ -121,8 +120,9 @@
 			fbno = #{bno}
 			AND writer = #{mno}
 	</update>
-	<!-- 글 삭제처리 질의명령 -->
-	<update id="delImg" parameterType="int">
+	
+	<!-- 글 삭제 처리 질의명령 -->
+	<update id="delImage" parameterType="int">
 		UPDATE
 			fileinfo
 		SET
@@ -130,6 +130,7 @@
 		WHERE
 			fileno = #{fno}
 	</update>
+	
 	<!-- 첨부파일 일괄삭제 처리 질의명령 -->
 	<update id="delImages" parameterType="List">
 		UPDATE
@@ -138,9 +139,35 @@
 			isshow = 'N'
 		WHERE
 			fileno IN 
-			<foreach item="fno" index="idx" collection="list" open="(" close=")" separator=",">
+			<foreach item="fno" index="idx" collection="list" 
+									open="(" close=")" separator=",">
 				#{fno}
 			</foreach>
 	</update>
 	
+	<!-- 게시글 수정 처리 질의명령 -->
+	<update id="editFboard" parameterType="bVO">
+		UPDATE
+			fileboard
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="title != null">
+				title = #{title},
+			</if>
+			<if test="body != null">
+				body = #{body},
+			</if>
+		</trim>
+	<!--  
+		<set suffixOverrides=",">
+			<if test="title != null">
+				title = #{title},
+			</if>
+			<if test="body != null">
+				body = #{body},
+			</if>
+		</set>
+	-->
+		WHERE
+			fbno = #{bno}
+	</update>
 </mapper>
