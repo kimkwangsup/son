@@ -47,7 +47,6 @@
 		<div class="w3-col w3-center">
 			<div class="w3-content mxw550" >
 				<header class="w3-container w3-pale-blue w3-center"> 
-					<span class="w3-btn w3-display-topright" id="close">&times;</span>
 					<h2><span id="tid membdata"></span>내정보</h2>
 				</header>
 				<div class="w3-container w3-padding">
