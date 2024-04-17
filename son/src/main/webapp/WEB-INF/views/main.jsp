@@ -65,6 +65,16 @@ $(document).ready(function(){
 	$('#myList').click(function(){
 		$(location).attr('href', '/member/myInfo.son');
 	});
+	$('#myInfo').click(function(){
+		var el = document.createElement('input');
+		$(el).attr('type', 'hidden');
+		$(el).attr('name', 'id');
+		$(el).val('${SID}');
+		$('#frm').append(el);
+		$('#frm').attr('action', '/member/myInfo.son');
+		$('#frm').submit();
+		
+	});
 });
 </script>
 </head>
@@ -85,7 +95,7 @@ $(document).ready(function(){
 <c:if test="${not empty SID}">
 		<div class="inblock w3-btn w3-small w3-right w3-pale-red" id="logout">로그아웃</div>
 		<div class="inblock w3-btn w3-small w3-right w3-blue-gray" id="idList">회원목록</div>
-		<div class="inblock w3-btn w3-small w3-right w3-gray" id="myList">내정보</div>
+		<div class="inblock w3-btn w3-small w3-right w3-gray" id="myInfo">내정보</div>
 </c:if>
 <c:if test="${empty SID}">
 		<div class="inblock w3-right w3-btn w3-small w3-pale-green" id="join">회원가입</div>

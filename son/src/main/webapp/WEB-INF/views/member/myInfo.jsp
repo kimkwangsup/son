@@ -37,12 +37,11 @@
 <body>
 	<div class="w3-content mxw650 w3-center">
 <c:if test="${not empty SID}">
-		<h1 class="w3-padding w3-pale-green w3-card-4">${DATA.id} 정보 페이지</h1>
+		<h1 class="w3-col w3-padding w3-pale-green w3-card-4 w3-btn" id="home">${DATA.id} 정보 페이지</h1>
 </c:if>
 		<div class="w3-col">
-			<div class="w3-btn w3-small w3-blue-gray w3-card-4 w3-left" id="home">메인화면</div>
-			<div class="w3-btn w3-small w3-pale-red w3-card-4 w3-right" id="logout">로그아웃</div>
-			<div class="w3-btn w3-small w3-sand w3-card-4 w3-right" id="edit">내정보수정</div>
+			<div class="w3-btn w3-small w3-pale-red w3-right" id="logout">로그아웃</div>
+			<div class="w3-btn w3-small w3-sand w3-left" id="edit">내정보수정</div>
 		</div>
 		<hr class="w3-col w3-margin">
 		<div class="w3-col w3-center">
