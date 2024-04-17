@@ -219,6 +219,7 @@ public class Member {
 		mVO = mDao.getMemberInfo(id);
 		mv.addObject("DATA", mVO);
 		return mv;
+		
 	}
 }
 

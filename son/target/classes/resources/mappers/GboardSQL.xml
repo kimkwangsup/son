@@ -48,4 +48,19 @@
 		FROM
 			gboard
 	</select>
+	
+	<insert id="writeProc" parameterType="bVO">
+		INSERT INTO
+			gboard(gno, body, writer)
+		VALUES(
+			gbrdseq.nextval, #{body}, (
+										SELECT
+											mno
+										FROM
+											member
+										WHERE
+											id = #{id}
+											)
+		)
+	</insert>
 </mapper>

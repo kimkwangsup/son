@@ -30,6 +30,12 @@ public class GboardDao {
 	public int getTotal() {
 		return session.selectOne("gSQL.getTotal");
 	}
+	/**
+	 * 방명록 작성 전담 처리함수
+	 */
+	public int writeProc(BoardVO bVO) {
+		return session.insert("gSQL.writeProc", bVO);
+	}
 }
 
 

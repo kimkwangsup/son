@@ -161,7 +161,14 @@
 처리함수	:	gboardList()
 응답문서	:	/WEB-INF/views/gboard/gboard.jsp
 
------------------------------------------------------------------------------
+# 방명록 작성 처리 요청
+요청내용 	:	/gboard/gWriteProc.son
+파라미터	:	id, body
+컨트롤러	:	com.human.son.controller.Gboard
+처리함수	:	gWriteProc()
+응답문서	:	
+				redirect ]
+							/gboard/gboard.son
 				
 -----------------------------------------------------------------------------
 요청내용 	:

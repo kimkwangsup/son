@@ -18,7 +18,9 @@ import com.human.son.vo.BoardVO;
 @RequestMapping("/gboard")
 public class Gboard {
 	@Autowired
-	GboardDao gDao;
+	GboardDao gDao; // GboardDao gDao = new G
+	
+	
 	@RequestMapping("/gboard.son")
 	public ModelAndView GboardList(ModelAndView mv, RedirectView rv, HttpSession session, PageUtil page) {
 		// 페이지 세팅
@@ -46,6 +48,20 @@ public class Gboard {
 		// 리스트를 뷰에 전달
 		mv.addObject("LIST", list);
 		mv.setViewName("/gboard/gboard");
+		return mv;
+	}
+	
+	
+	@RequestMapping("/gWriteProc.son")
+	public ModelAndView gWriteProc(HttpSession session, ModelAndView mv, RedirectView rv, BoardVO bVO) {
+		if(session.getAttribute("SID") == null) {
+			rv.setUrl("/member/login.son");
+		}
+		int cnt = gDao.writeProc(bVO);
+		if(cnt == 1) {
+			rv.setUrl("/gboard/gboard.son");
+		} 
+		mv.setView(rv);
 		return mv;
 	}
 	
