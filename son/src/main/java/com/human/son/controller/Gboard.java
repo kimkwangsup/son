@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -69,7 +70,7 @@ public class Gboard {
 	/**
 	 * 방명록 글등록 처리요청(redirect)
 	 */
-	@RequestMapping(path="/gWriteProc2.son", params= {"id","body","nowPage"})
+	@RequestMapping(path="/gWriteProc2.son", params= {"id","body","nowPage"}, method=RequestMethod.POST)
 	public ModelAndView writeProc(HttpSession session, ModelAndView mv, RedirectView rv, BoardVO bVO, int nowPage) {
 		int cnt = gDao.writeProc(bVO);
 		if(cnt != 1) {

@@ -48,6 +48,9 @@
 		FROM
 			gboard
 	</select>
+
+	
+	
 	
 	<insert id="writeProc" parameterType="bVO">
 		INSERT INTO
@@ -63,4 +66,5 @@
 											)
 		)
 	</insert>
+	
 </mapper>

@@ -9,6 +9,7 @@
 						
 	<beans:bean id="logoutCheck" class="com.human.son.service.LogoutCheckInterceptor"/>
 	<beans:bean id="loginCheck" class="com.human.son.service.LoginCheckInterceptor"/>
+	<beans:bean id="gboardCheck" class="com.human.son.service.GboardInterceptor" />
 	
 	<interceptors>
 		<!-- 로그아웃 체크 -->
@@ -36,6 +37,10 @@
 			<exclude-mapping path="/fboard/fileboard.son" />
 			<exclude-mapping path="/fboard/fboardDelimg.son" />
 			<beans:ref bean="loginCheck"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/gboard/gWrite*.son"/>
+			<beans:ref bean="gboardCheck"/>
 		</interceptor>
 	</interceptors>
 </beans:beans>
