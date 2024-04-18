@@ -20,7 +20,9 @@
 </head>
 <body>
 	<form method="post" action="${PATH}" id="frm">
+<c:if test="${not empty BNO}">
 		<input type="hidden" name="bno" value="${BNO}">
+</c:if>
 		<input type="hidden" name="nowPage" value="${nowPage}">
 	</form>
 </body>

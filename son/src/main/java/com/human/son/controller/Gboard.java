@@ -50,7 +50,9 @@ public class Gboard {
 		mv.setViewName("/gboard/gboard");
 		return mv;
 	}
-	
+	/**
+	 *  방명록 글등록 처리요청(modal)
+	 */
 	
 	@RequestMapping("/gWriteProc.son")
 	public ModelAndView gWriteProc(HttpSession session, ModelAndView mv, RedirectView rv, BoardVO bVO) {
@@ -62,6 +64,34 @@ public class Gboard {
 			rv.setUrl("/gboard/gboard.son");
 		} 
 		mv.setView(rv);
+		return mv;
+	}
+	/**
+	 * 방명록 글등록 처리요청(redirect)
+	 */
+	@RequestMapping(path="/gWriteProc2.son", params= {"id","body","nowPage"})
+	public ModelAndView writeProc(HttpSession session, ModelAndView mv, RedirectView rv, BoardVO bVO, int nowPage) {
+		int cnt = gDao.writeProc(bVO);
+		if(cnt != 1) {
+			rv.setUrl("/gboard/gWrite.son?nowPage=" + nowPage);
+		} else {
+			rv.setUrl("/gboard/gboard.son");
+		}
+		mv.setView(rv);
+		return mv;
+	}
+	/**
+	 * 방명록 작성 폼 보기 요청 전담 처리함수
+	 */
+	@RequestMapping(path={"/gWrite.son", "/gboardWrite.son"}, params="nowPage")
+	public ModelAndView gWrite(HttpSession session, ModelAndView mv, 
+											RedirectView rv, int nowPage) {
+		// 세션검사는 Interceptor에서 처리할 것이므로 여기서는 생략...
+		// 데이터 심고
+		mv.addObject("nowPage", nowPage);
+		// 뷰 정하고
+		mv.setViewName("gboard/gboardWrite");
+		// 반환하고
 		return mv;
 	}
 	

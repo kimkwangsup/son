@@ -92,15 +92,6 @@ public class FileBoard {
 	public ModelAndView delProc(HttpSession session, ModelAndView mv, RedirectView rv, int bno, int nowPage, BoardVO bVO) {
 		// 할일
 		// 세션 검사하고
-		String sid = (String) session.getAttribute("SID");
-		if(sid == null) {
-			// 로그인 안한 경우
-			// ==> 삭제 처리 하면 안된다.
-			rv.setUrl("/member/login.son");
-			mv.setView(rv);
-			return mv;
-		}
-		bVO.setId(sid);
 		// 로그인한 사람과 작성자 일치 여부 확인
 		// 로그인한 사람의 회원 번호 조회
 		// ==> update 질의명령의 조건절에서 처리하므로 필요 없다.
@@ -126,12 +117,6 @@ public class FileBoard {
 	public ModelAndView boardEdit(HttpSession session, ModelAndView mv, RedirectView rv, BoardVO bVO, int nowPage) {
 		// 할일
 		// 세션검사
-		String sid = (String) session.getAttribute("SID");
-		if(sid == null) {
-			rv.setUrl("/member/login.son");
-			mv.setView(rv);
-			return mv;
-		}
 		// 글번호에 해당하는 상세내용 조회
 		bVO = fDao.getBnoDetail(bVO.getBno());
 		// 첨부파일 리스트 조회
