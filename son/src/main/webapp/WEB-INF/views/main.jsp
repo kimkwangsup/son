@@ -91,7 +91,9 @@ $(document).ready(function(){
 <!-- 로그인에 성공하면 session에 SID 라는 속성으로 아이디를 기억시켜놓을 것이므로 -->
 		<div class="inblock w3-left w3-btn w3-small w3-pale-red" id="gboard">방명록</div>
 		<div class="inblock w3-left w3-btn w3-small w3-sand" id="fboard">파일게시판</div>
-		
+<c:if test="${empty SCNT or SCNT eq 0}">
+		<div class="inblock w3-left w3-btn w3-small w3-brown" id="sdata">설문조사</div>
+</c:if>
 <c:if test="${not empty SID}">
 		<div class="inblock w3-btn w3-small w3-right w3-pale-red" id="logout">로그아웃</div>
 		<div class="inblock w3-btn w3-small w3-right w3-blue-gray" id="idList">회원목록</div>

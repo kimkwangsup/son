@@ -5,7 +5,7 @@ import java.util.*;
 import org.springframework.web.multipart.*;
 
 public class BoardVO {
-	private int rno, bno, mno, ano, cnt;
+	private int rno, bno, mno, ano, cnt, gno;
 	private String name, id, title, body, sdate, sname;
 	private ArrayList<String> filenames;
 	private Integer[] imgnos;
@@ -30,6 +30,13 @@ public class BoardVO {
 		name 속성이 같은 태그가 여러개가 전송이 될 것이므로
 		이럴 때는 배열형태로 받아야 한다.
 	 */
+	
+	public int getGno() {
+		return gno;
+	}
+	public void setGno(int gno) {
+		this.gno = gno;
+	}
 	public Integer[] getImgnos() {
 		return imgnos;
 	}

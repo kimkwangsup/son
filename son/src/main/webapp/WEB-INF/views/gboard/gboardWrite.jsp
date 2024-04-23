@@ -60,7 +60,7 @@
 			$(el).attr('name', 'body');
 			$(el).val(sbody);
 			$('#frm').append(el);
-			$('#frm').attr('action', '/gboard/gWriteProc2.son');
+			$('#frm').attr('action', '/gboard/gWriteProc.son');
 			$('#frm').submit();
 		});
 	});

@@ -1,8 +1,10 @@
 package com.human.son.controller;
 
 import java.util.*;
+
 import javax.servlet.http.*;
 
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,9 @@ public class Member {
 	
 	@Autowired
 	ColorList color;
+	
+	// logger <== aop 에서 처리
+//	private static final Logger membLog = LoggerFactory.getLogger("membLog");
 	
 	/**
 	 * 로그인 화면 보기 요청 전담 처리함수
@@ -48,15 +53,22 @@ public class Member {
 		mv.addObject("DATA", mVO);
 		return mv;
 	}
+	/**
+	 * 로그인 요청 전담 처리함수
+	 */
+	
 	@RequestMapping("/loginProc.son")
 	public ModelAndView loginProc(HttpSession session, ModelAndView mv, RedirectView rv, MemberVO mVO) {
 		String view = "/main.son";
 		int cnt = mDao.getLogin(mVO);
+		mVO.setCnt(cnt);
 		if(cnt != 1) {
 			view = "/member/login.son";
-		} else {
-			session.setAttribute("SID", mVO.getId());
-		}
+		} /*else {
+//			session.setAttribute("SID", mVO.getId());
+			// 로그 작성
+//			membLog.info(mVO.getId() + " 님이 로그인 했습니다.");
+		}*/
 		rv.setUrl(view);
 		mv.setView(rv);
 		return mv;
@@ -68,7 +80,10 @@ public class Member {
 	@RequestMapping("/logoutProc.son")
 	public ModelAndView logoutProc(HttpSession session, ModelAndView mv, RedirectView rv) {
 		String view = "/main.son";
-		session.removeAttribute("SID");
+		String sid = (String) session.getAttribute("SID");
+//		session.removeAttribute("SID");
+//		membLog.info(sid + " 님이 로그아웃 했습니다.");
+//		aop에서 처리
 		rv.setUrl(view);
 		mv.setView(rv);
 		return mv;
@@ -80,7 +95,7 @@ public class Member {
 	@RequestMapping("/flogoutProc.son")
 	public ModelAndView flogoutProc(HttpSession session, ModelAndView mv, RedirectView rv) {
 		String view = "/fboard/fileboard.son";
-		session.removeAttribute("SID");
+//		session.removeAttribute("SID");
 		rv.setUrl(view);
 		mv.setView(rv);
 		return mv;
@@ -125,12 +140,14 @@ public class Member {
 	public ModelAndView joinProc(HttpSession session, ModelAndView mv, RedirectView rv, MemberVO mVO) {
 		// 데이터베이스 작업
 		int cnt = mDao.addMemb(mVO);
-		
+		mVO.setCnt(cnt);
 		// 뷰 셋팅하고
 		if(cnt == 1) {
 			// 회원가입에 성공한 경우
 			// 세션에 아이디 기억시키고
-			session.setAttribute("SID", mVO.getId());
+//			session.setAttribute("SID", mVO.getId());
+			// 로그작성
+			// membLog.info(mVO.getId() + " 님이 회원가입 했습니다.");
 			// 뷰 셋팅하고
 			rv.setUrl("/main.son");
 		} else {

@@ -23,7 +23,7 @@ public class Gboard {
 	
 	
 	@RequestMapping("/gboard.son")
-	public ModelAndView GboardList(ModelAndView mv, RedirectView rv, HttpSession session, PageUtil page) {
+	public ModelAndView GboardList(HttpSession session, ModelAndView mv, RedirectView rv, PageUtil page) {
 		// 페이지 세팅
 		// 현재 페이지 세팅
 		int nowPage = page.getNowPage();
@@ -63,6 +63,7 @@ public class Gboard {
 		int cnt = gDao.writeProc(bVO);
 		if(cnt == 1) {
 			rv.setUrl("/gboard/gboard.son");
+			cnt = bVO.getCnt();
 		} 
 		mv.setView(rv);
 		return mv;
@@ -73,6 +74,7 @@ public class Gboard {
 	@RequestMapping(path="/gWriteProc2.son", params= {"id","body","nowPage"}, method=RequestMethod.POST)
 	public ModelAndView writeProc(HttpSession session, ModelAndView mv, RedirectView rv, BoardVO bVO, int nowPage) {
 		int cnt = gDao.writeProc(bVO);
+		cnt = bVO.getCnt();
 		if(cnt != 1) {
 			rv.setUrl("/gboard/gWrite.son?nowPage=" + nowPage);
 		} else {

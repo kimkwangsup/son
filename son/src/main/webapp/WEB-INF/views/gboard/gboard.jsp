@@ -105,7 +105,7 @@
 	</form>
 	
 	<div class="w3-content mxw600">
-		<h1 class="w3-col w3-pale-green w3-center w3-padding w3-card-4 w3-round-large">son 방명록</h1>
+		<h1 class="w3-col w3-pale-green w3-center w3-padding w3-card-4 w3-round-large">${SID} 방명록</h1>
 		<div class="w3-col">
 			<div class="w3-blue-gray w3-btn w3-left w3-small" id="home">처음화면</div>
 <c:if test="${empty SID }"><!-- 로그인 안한 경우 -->
