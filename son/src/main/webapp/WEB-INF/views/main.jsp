@@ -42,6 +42,9 @@ $(document).ready(function(){
 	$('#idList').click(function(){
 		$(location).attr('href', '/member/memberList.son');
 	});
+	$('#sdata').click(function(){
+		$(location).attr('href', '/survey/dataInit.son');
+	});
 	
 	/*  
 		myInfo 버튼이 클릭되면 아이디가 frm 태그에 bno 를 기억할 태그를 추가해서 
@@ -73,37 +76,70 @@ $(document).ready(function(){
 		$('#frm').append(el);
 		$('#frm').attr('action', '/member/myInfo.son');
 		$('#frm').submit();
-		
+	});
+	$('#survey').click(function(){
+		$(location).attr('href', '/survey/surveyList.son');
 	});
 });
 </script>
 </head>
 <form method="post" id="frm"></form>
 <body>
-<div class="w3-content mxw650 w3-center">
-<c:if test="${not empty SID }">
-	<h1 class="w3-pale-green w3-padding w3-card-4 w3-round-large">${SID} 메인</h1>
-</c:if>
-<c:if test="${empty SID}">
-	<h1 class="w3-teal w3-padding w3-card-4 w3-round-large">son 메인</h1>
-</c:if>
-	<div class="w3-col mgt10">
-<!-- 로그인에 성공하면 session에 SID 라는 속성으로 아이디를 기억시켜놓을 것이므로 -->
-		<div class="inblock w3-left w3-btn w3-small w3-pale-red" id="gboard">방명록</div>
-		<div class="inblock w3-left w3-btn w3-small w3-sand" id="fboard">파일게시판</div>
-<c:if test="${empty SCNT or SCNT eq 0}">
-		<div class="inblock w3-left w3-btn w3-small w3-brown" id="sdata">설문조사</div>
-</c:if>
-<c:if test="${not empty SID}">
-		<div class="inblock w3-btn w3-small w3-right w3-pale-red" id="logout">로그아웃</div>
-		<div class="inblock w3-btn w3-small w3-right w3-blue-gray" id="idList">회원목록</div>
-		<div class="inblock w3-btn w3-small w3-right w3-gray" id="myInfo">내정보</div>
-</c:if>
-<c:if test="${empty SID}">
-		<div class="inblock w3-right w3-btn w3-small w3-pale-green" id="join">회원가입</div>
-		<div class="inblock w3-right w3-btn w3-small w3-pale-blue" id="login">로그인</div>
-</c:if>
-
+	<div class="w3-content mxw650 w3-center">
+	<c:if test="${not empty SID }">
+		<h1 class="w3-pale-green w3-padding w3-card-4 w3-round-large">${SID} 메인</h1>
+	</c:if>
+	<c:if test="${empty SID}">
+		<h1 class="w3-teal w3-padding w3-card-4 w3-round-large">son 메인</h1>
+	</c:if>
+		<div class="w3-col mgt10">
+			<div class="inblock w3-left w3-btn w3-small w3-pale-red" id="gboard">방명록</div>
+			<div class="inblock w3-left w3-btn w3-small w3-sand" id="fboard">파일게시판</div>
+	<c:if test="${not empty SID}">
+			<div class="inblock w3-btn w3-small w3-right w3-pale-red" id="logout">로그아웃</div>
+			<div class="inblock w3-btn w3-small w3-right w3-blue-gray" id="idList">회원목록</div>
+			<div class="inblock w3-btn w3-small w3-right w3-gray" id="myInfo">내정보</div>
+	</c:if>
+	<c:if test="${not empty SID and SID eq 'ks'}">
+		<c:if test="${empty SCNT or SCNT eq 0}">
+				<div class="inblock w3-left w3-btn w3-small w3-brown" id="sdata">설문초기화</div>
+		</c:if>
+	</c:if>
+	<c:if test="${INGCNT ne 0}">
+			<div class="inblock w3-left w3-btn w3-small w3-light-green" id="survey">설문조사</div>
+	</c:if>
+	<c:if test="${empty SID}">
+			<div class="inblock w3-right w3-btn w3-small w3-pale-green" id="join">회원가입</div>
+			<div class="inblock w3-right w3-btn w3-small w3-pale-blue" id="login">로그인</div>
+	</c:if>
+		</div>
 	</div>
-</div>
+	<c:if test="${not empty param.RESULT}">
+		<div id="wmodal" class="w3-modal">
+			<div class="w3-modal-content mxw550">
+				<header class="w3-container w3-pale-green"> 
+					<span class="w3-btn w3-display-topright" id="close">&times;</span>
+					<h2 class="w3-center">설문 데이터 초기화 완료</h2>
+				</header>
+				<div class="w3-container w3-padding">
+					<h3 class="w3-center">
+						<c:if test="${param.RESULT eq 'OK'}">설문 조사 데이터 초기화가 완료되었습니다.</c:if>				
+						<c:if test="${param.RESULT eq 'NO'}">설문 조사 데이터 초기화에 실패하였습니다.</c:if>				
+					</h3>
+				</div>
+				<footer class="w3-col">
+					<div class="w3-col w3-light-gray w3-btn" id="cbtn">확인</div>
+				</footer>
+			</div>>
+		</div>
+		<script type="text/javascript" >
+			$(document).ready(function(){
+				$('#wmodal').css('display', 'block');
+				// modal 클릭 이벤트
+				$('#cbtn, #close').click(function(){
+					$('#wmodal').css('display', 'none');
+				});
+			});
+		</script>
+	</c:if>
 </body>

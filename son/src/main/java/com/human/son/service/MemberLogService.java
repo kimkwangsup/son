@@ -88,7 +88,6 @@ public class MemberLogService {
 				act = "회원가입에 실패";
 			}
 		}
-		
 		membLog.info(id + " 회원이 " + act + " 했습니다.");
 	}
 }

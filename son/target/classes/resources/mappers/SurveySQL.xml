@@ -4,9 +4,100 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="sSQL">
 	<select id="qListCnt" resultType="int">
-		SELECT 
-			COUNT(*) 
-		FROM 
-			quest
+		SELECT
+		    COUNT(*)
+		FROM
+		    quest
 	</select>
+	
+	<select id="ingCnt" resultType="int">
+	select
+    	count(*)
+	from
+    	topic
+	where
+    	sysdate BETWEEN startdate AND enddate
+	</select>
+	
+	<!-- 설문 리스트 조회 질의명령 -->
+	<select id="surveyList" resultType="sVO">
+		SELECT
+    		tpno, title, CASE WHEN(sysdate BETWEEN startdate AND enddate) THEN 'OK' ELSE 'NO' END as ing,
+    		(
+    			SELECT
+					COUNT(*)
+				FROM
+					survey
+				WHERE
+					stno = tpno
+    		) cnt
+		FROM
+    		topic
+    	ORDER BY
+    		startdate desc, enddate
+	</select>
+	
+	<!-- 주제번호로 설문 문항 등록 여부 조회 질의명령 -->
+	<select id="getSurveyCnt" resultType="String" parameterType="int">
+		SELECT
+			DECODE(COUNT(*), 0, 'NO','YES') result
+		FROM
+			survey
+		WHERE
+			stno = #{tpno}
+	</select>
+	
+	<!-- 아이디와 설문 주제 번호로 참여 카운트 조회 질의명령 -->
+	<select id="answerCnt" resultType="int" parameterType="sVO">
+		SELECT
+		    COUNT(*)
+		FROM
+		    surveyanswer
+		WHERE
+		    sa_id = #{id}
+		    AND ssno in (
+		                    SELECT
+		                        sqno qno
+		                    FROM
+		                        survey
+		                    WHERE
+		                        stno = #{tpno}
+		                )   
+	</select>
+	
+	<insert id="addQuest" parameterType="sVO">
+		<selectKey keyProperty="qno" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(qno) + 1, 1001) FROM quest
+		</selectKey>
+		INSERT INTO
+			quest
+		VALUES(
+			#{qno}, #{body}, 
+		<if test="qupno eq 0">null</if>
+		<if test="qupno neq 0">#{qupno}</if>
+		)
+	</insert>
+	
+	<!-- 설문조사 문항 등록 처리함수 -->
+	<insert id="setSurvey" parameterType="sVO">
+		INSERT INTO
+		    survey
+		VALUES(
+		    (SELECT NVL(MAX(svno) + 1, 1001) FROM survey),
+		    #{tpno}, #{qno}
+		)
+	</insert>
+	
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
