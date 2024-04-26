@@ -1,17 +1,21 @@
 package com.human.son.vo;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.text.*;
+import java.util.*;
 
 public class SurveyVO {
 	private int rno, qno, tpno, qano, qupno, svno, cnt;
 	private String id, title, body, sdate, ing;
+	private int[] qanos;
 	private Date startDate, endDate, adate;
 	private ArrayList<SurveyVO> bogis;
 	
-	
-	
+	public int[] getQanos() {
+		return qanos;
+	}
+	public void setQanos(int[] qanos) {
+		this.qanos = qanos;
+	}
 	public String getIng() {
 		return ing;
 	}
@@ -87,12 +91,12 @@ public class SurveyVO {
 	public String getSdate() {
 		return sdate;
 	}
-	public void setSdate(String sdate) {
-		this.sdate = sdate;
-	}
 	public void setSdate(Date date) {
 		SimpleDateFormat form = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		sdate = form.format(date);
+	}
+	public void setSdate(String sdate) {
+		this.sdate = sdate;
 	}
 	public Date getStartDate() {
 		return startDate;
@@ -118,5 +122,4 @@ public class SurveyVO {
 				+ ", svno=" + svno + ", cnt=" + cnt + ", id=" + id + ", title=" + title + ", body=" + body + ", sdate="
 				+ sdate + ", startDate=" + startDate + ", endDate=" + endDate + ", adate=" + adate + "]";
 	}
-	
 }

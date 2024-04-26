@@ -156,8 +156,24 @@ public class SurveyService {
 		return result;
 	}
 	/**
-	 * 원피스 설문조사 문항 리스트 반환함수
+	 * 설문 문항 리스트 조회 데이터베이스 작업 전담 처리함수
 	 */
+	public List<SurveyVO> getSurvey(SurveyVO sVO){
+		// 문항 리스트 조회
+		List<SurveyVO> list = sDao.getSurvey(sVO); // 문제만 들어있는 리스트
+		// 각 문제별로 보기들 조회
+		// VO필요하므로
+		for(int i = 0 ; i < list.size(); i++ ) {
+			sVO = list.get(i);
+			// qupno 셋팅
+			sVO.setQupno(sVO.getQno());
+			// 보기리스트 조회
+			ArrayList<SurveyVO> bogis = (ArrayList<SurveyVO>) sDao.getSurvey(sVO);
+			// 보기리스트 셋팅
+			sVO.setBogis(bogis);
+		}
+		return list;
+	}
 }
 
 

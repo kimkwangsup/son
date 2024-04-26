@@ -65,8 +65,21 @@ public class Survey {
 		
 		return mv;
 	}
-	
-	
+	/**
+	 * 설문조사 문항 보기 요청 전담 처리함수.
+	 */
+	@RequestMapping("/surveyQuest.son")
+	public ModelAndView surveyQuest(HttpSession session, ModelAndView mv, 
+											RedirectView rv, SurveyVO sVO) {
+		// 데이터베이스 조회해서 데이터 가져오고
+		List<SurveyVO> list = sSrvc.getSurvey(sVO);
+		
+		// 데이터 전달하고
+		mv.addObject("LIST", list);
+		// 뷰 부르고
+		mv.setViewName("survey/surveyQuest");
+		return mv;
+	}
 	
 	
 	
