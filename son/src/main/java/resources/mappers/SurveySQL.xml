@@ -83,6 +83,21 @@
 		ORDER BY
 		    qno
 	</select> 
+
+	<!-- 설문조사 중복 참여 조회 전담 질의명령 -->	
+	<select id="selSurveyAnswer" parameterType="sVO" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			surveyanswer
+		WHERE
+			ssno IN (
+					SELECT
+						svno
+					FROM
+						survey
+				)
+	</select>
 	
 	<insert id="addQuest" parameterType="sVO">
 		<selectKey keyProperty="qno" resultType="int" order="BEFORE">
