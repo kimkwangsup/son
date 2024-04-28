@@ -52,5 +52,11 @@ public class SurveyDao {
 	public int addSurveyAnswer(SurveyVO sVO){
 		return session.insert("sSQL.addSurveyAnswer", sVO);
 	}
+	/**
+	 * 설문조사 중복 조회 전담 처리함수
+	 */
+	public int selSurveyAnswer(SurveyVO sVO){
+		return session.selectOne("sSQL.selSurveyAnswer", sVO);
+	}
 	
 }
