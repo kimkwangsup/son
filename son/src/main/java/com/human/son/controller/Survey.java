@@ -80,6 +80,30 @@ public class Survey {
 		mv.setViewName("survey/surveyQuest");
 		return mv;
 	}
+	@RequestMapping("/surveyAnswer.son")
+	public ModelAndView surveyAnswer(HttpSession session, ModelAndView mv, RedirectView rv, SurveyVO sVO){
+		// 뷰만들기
+		String view = "";
+		// 세션에서 아이디
+		String sid = session.getAttribute("SID");
+		sVO.setID(sid);
+		// 설문조사 중복 조회
+		int cnt = sDao.selSurveyAnswer(sVO);
+		if(cnt != 0){
+			view = "/survey/surveyList.son";
+			
+		}
+		// 설문 결과번호 넘겨주기
+		int cnt1 = sDao.addSurveyAnswer(sVO);
+		if(cnt1 == 1){
+			view = "/survey/surveyResult.son";
+		}else{
+			view = "/survey/surveyQuest.son";
+		}
+		rv.setUrl(view);
+		mv.setView(rv);
+		return mv;
+	}
 	
 	
 	
