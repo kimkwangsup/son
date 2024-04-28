@@ -91,12 +91,17 @@
 		FROM
 			surveyanswer
 		WHERE
-			ssno IN (
+			id = #{id}
+			AND ssno IN (
 					SELECT
 						svno
 					FROM
 						survey
-				)
+					WHERE
+						stno = #{tpno}
+					) 
+			
+			
 	</select>
 	
 	<insert id="addQuest" parameterType="sVO">
