@@ -104,6 +104,12 @@ public class Survey {
 		mv.setView(rv);
 		return mv;
 	}
+	@RequestMapping("/surveyResult.son")
+	public ModelAndView surveyResult(ModelAndView mv, SurveyVO sVO){
+		mv.setViewName("survey/surveyResult");
+		return mv;
+
+	}
 	
 	
 	
