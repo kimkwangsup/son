@@ -106,6 +106,17 @@
 		    #{tpno}, #{qno}
 		)
 	</insert>
+
+	<!-- 설문조사 결과 등록 전담 처리함수 -->
+	<insert id="addSurveyAnswer" parameterType="sVO">
+		INSERT INTO
+			surveyanswer
+		VALUES(
+			(SELECT NVL(MAX(svno) + 1, 1001) FROM surveyanswer),
+			#{svno}, #{id}
+		)
+
+	</insert>
 	
 </mapper>
 
